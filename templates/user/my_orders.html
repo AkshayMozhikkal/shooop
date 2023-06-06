@@ -1,0 +1,62 @@
+{% extends 'user/base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="height: 150px;"></div>
+
+<div class="container mt-5 ">
+<div style="height: 50px;" class="row d-flex justify-content-center "><h2 style="color: gray; font-weight: bolder;">Orders</h2></div>
+<div class="col my-5 pb-5">
+    {% if orders %}
+<table class="table table ">
+    <thead>
+
+      <tr>
+        <th scope="col">#Order ID</th>
+        <th scope="col">Product</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total</th>
+        <th scope="col">Time of Order</th>
+        <th scope="col">Status</th>
+      </tr>
+
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    {% for item  in ord_products %}
+    {% if item.order_id.id == order.id %}
+       <tr>
+        <th scope="row">{{item.order_id.id}}</th>
+        <td>{{item.product.prod_name}}</td>
+        <td>{{item.product.price}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{item.order_id.time_of_order}}</td>
+        <td>{{item.order_id.status}}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}      
+      <td><h5>Order #{{order.id}} Total:</h5></td>
+      <td><h5> Rs. {{order.total_amount}}/-</h5></td>
+      <tr><td></td><td></td></tr>
+      <tr></tr>
+    
+      {% endfor %}
+   
+    </tbody>
+  </table>
+
+  {% else %}
+  <div class="row d-flex justify-content-center"></div>
+    <h4 style="color: gray;">You don't have any orders, Make your First Order Now..!!</h4>
+    
+  {% endif %}
+</div>
+</div>
+</div>
+<div style="height: 150px;"></div>
+        
+
+{% endblock %}
+

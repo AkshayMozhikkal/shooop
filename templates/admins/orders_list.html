@@ -1,0 +1,194 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooop Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Shooop</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'products' %}">Products</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'users_list' %}">Customers</a>
+                  </li>
+                  
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li> -->
+                  <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li> -->
+                  {% comment %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'products' %}">Product Details</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link " href="{% url 'add_product' %}">Add New Product</a>
+                  </li> {% endcomment %}
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Order Number</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Shipping Address</th>
+            <th scope="col">Products</th>            
+            <th scope="col">Order Amount</th>
+            <th scope="col">Time</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <th scope="row">{{ order.id}} </th>
+            <td> {{ order.customer.username}}</td>
+            <td> {{ order.name_of_person }}</td>
+            <td> {{ order.address.house }}, {{ order.address.city }}, {{ order.address.state }}, {{ order.address.zip }}, {{ order.address.country }}</td>
+            <td> {% for item in items  %} {% if item.order_id.id == order.id %} {{item.product.prod_name}}, {% endif %}{% endfor %}</td>
+            <td> {{ order.total_amount }}</td>
+            <td> {{ order.time_of_order }}</td> 
+            <td style="color: green ;"> {{ order.status }}</td>
+          
+
+             <!-- Modal Start -->
+
+          <td> <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productModal2{{forloop.counter}}">edit</button> </td>
+              
+          <div class="modal fade" id="productModal2{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel">Edit Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form  method ="post" action="{% url 'update_order_status' order.id %}" enctype="multipart/form-data">
+                          {% csrf_token %}
+
+                          {% if order.status == 'Order Confirmed' %}
+                            <div class="form-group">
+                              <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled checked>
+                              <label for="dreamweaver" class="ml-2 mt-2" >Order Confirmed</label>
+                            </div>
+
+                            <div class="form-group">
+                              <input class="ml-3" type="radio" name="status" value="Shipped">
+                              <label for="dreamweaver" class="ml-2 mt-2" >shipped</label>
+                            </div>
+
+                            <div class="form-group">
+                              <input class="ml-3" type="radio" name="status" value="Out for delivery" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2" >out for delivery</label>
+                            </div>
+
+                            <div class="form-group">
+                              <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2" >delivered</label>
+                            </div>
+                            
+                          </div>
+                          {% elif order.status == 'Shipped' %}
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled >
+                            <label for="dreamweaver" class="ml-2 mt-2" >Order Confirmed</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Shipped" disabled checked>
+                            <label for="dreamweaver" class="ml-2 mt-2" >shipped</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Out for delivery">
+                            <label for="dreamweaver" class="ml-2 mt-2" >out for delivery</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+                            <label for="dreamweaver" class="ml-2 mt-2" >delivered</label>
+                          </div>
+                        </div>
+                          {% else %}
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled >
+                            <label for="dreamweaver" class="ml-2 mt-2" >Order Confirmed</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Shipped" disabled>
+                            <label for="dreamweaver" class="ml-2 mt-2" >shipped</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Out for delivery" disabled checked>
+                            <label for="dreamweaver" class="ml-2 mt-2" >out for delivery</label>
+                          </div>
+                          <div class="form-group">
+                            <input class="ml-3" type="radio" name="status" value="Delivered">
+                            <label for="dreamweaver" class="ml-2 mt-2" >delivered</label>
+                          </div>
+                      
+                    </div>
+                    {% endif %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                  </form>
+                </div>
+      <!-- Modal End -->
+          </tr>
+          {% endfor %} 
+
+         
+
+
+        </tbody>
+      </table>
+    </div>
+</body> 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
+
+{% endblock content %}

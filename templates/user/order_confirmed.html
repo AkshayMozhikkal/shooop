@@ -1,0 +1,119 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block content %}
+
+<div style="height: 100px;"></div>
+
+	<!--================Order Details Area =================-->
+	<section class="order_details section_gap">
+		<div class="container">
+			<h3 style="color: rgb(10, 183, 10); margin-left: 200px;" >Thank you. Your order has been received.</h3>
+            <div style="height: 40px;"></div>
+			<div class="row order_d_inner">
+				<div class="col-lg-4">
+					<div class="details_item">
+						<h4>Order Info</h4>
+						<ul class="list">
+							<li><a href="#"><span>Order number</span> :#{{order.id}}</a></li>
+							<li><a href="#"><span>Date & Time</span> : {{order.time_of_order}}</a></li>
+							<li><a href="#"><span>Total</span> : {{order.total_amount}}</a></li>
+							<li><a href="#"><span>Payment method</span> : Cash On Delivery</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="details_item">
+						<h4>Billing Address</h4>
+						<ul class="list">
+                            <li><a href="#"><span>Customer</span> : {{order.customer.first_name}} {{order.customer.last_name}}</a></li>
+							<li><a href="#"><span>House No:</span> : {{order.address.house}}</a></li>
+							<li><a href="#"><span>City</span> : {{order.address.city}}</a></li>
+							<li><a href="#"><span>State</span> : {{order.address.state}}</a></li>
+							<li><a href="#"><span>Postcode </span> : {{order.address.zip}}</a></li>
+                            <li><a href="#"><span>Country </span> : {{order.address.country}}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="details_item">
+						<h4>Shipping Address</h4>
+						<ul class="list">
+                            <li><a href="#"><span>Name:</span> : {{order.name_of_person}}</a></li>
+							<li><a href="#"><span>House No:</span> : {{order.address.house}}</a></li>
+							<li><a href="#"><span>City</span> : {{order.address.city}}</a></li>
+							<li><a href="#"><span>State</span> : {{order.address.state}}</a></li>
+							<li><a href="#"><span>Postcode </span> : {{order.address.zip}}</a></li>
+                            <li><a href="#"><span>Country </span> : {{order.address.country}}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="order_details_table">
+				<h2>Order Details</h2>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Product</th>
+								<th scope="col">Quantity</th>
+								<th scope="col">Total</th>
+							</tr>
+						</thead>
+						<tbody>
+                            {% for item in products %}
+							<tr>
+								<td>
+									<p>{{item.product_id.prod_name}}</p>
+								</td>
+								<td>
+									<h5>x {{item.product_count}}</h5>
+								</td>
+								<td>
+									<p>Rs: {{item.total_price}}</p>
+								</td>
+							</tr>
+                            {% endfor %}
+							
+							<tr>
+								<td>
+									<h4>Subtotal</h4>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p>Rs: {{order.total_amount}}</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h4>Shipping</h4>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p>Flat rate: 0.00</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h4>Total</h4>
+								</td>
+								<td>
+									<h5></h5>
+								</td>
+								<td>
+									<p>Rs: {{order.total_amount}}</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Order Details Area =================-->
+
+
+{% endblock content %}

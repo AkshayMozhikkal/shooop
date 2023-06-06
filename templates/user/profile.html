@@ -1,0 +1,363 @@
+{% extends 'user/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooop</title>
+    <link rel="stylesheet" href="{% static 'user/css/user_profile.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+
+<body>
+    
+    <div style="height: 100px;"></div>
+    <div class="container emp-profile ">
+        <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img ">
+                        <div>
+                            {% if user.image %}
+                            <img style="height: 150px; width: 150px;" src="{{ user.image.url }}" alt="Not available" />
+                            {% else %}
+                            <img style="height: 150px; width: 150px;" src="{% static 'user/img/ProPic.png' %}" alt="Add Profile Image" />
+                            {% endif %}
+                        </div><br><br>
+                        <div class="file btn btn-lg btn-secondary" style="width: 150px;">
+                            Update Photo
+                            <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5>
+                            Hello, {{ user.first_name }} {{ user.last_name }}
+                        </h5>
+                        <h6>
+                            <span style="color: rgb(165, 149, 149);">Username:@</span> {{ user.username }}
+                        </h6>
+                        <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">Edit Info</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                 <!-- Start Messages Area -->
+                    {% if messages %}
+                    <div class="alert alert-danger alert-dismissible fade show h-auto" role="alert" style="position: relative;">
+                        <button  type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {% for message in messages %}
+                            <strong>{{ message }}</strong><br>
+                        {% endfor %}
+                    </div>
+                    <script>
+                        let closeButton = document.querySelector('.alert button');
+                        closeButton.addEventListener('click', function () {
+                            let alertBox = this.parentElement;
+                            alertBox.style.display = 'none';
+                        });
+                    </script>
+                    {% endif %}
+                    <!-- Start Messages Area -->
+
+            </div>
+            <div class="row"> 
+                <div class="col-md-4">
+                    <div class="profile-work">
+                        <p>PAGES</p>
+                        <a href="{% url 'wishlist' %}">Your Wishlist</a><br />
+                        <a href="{% url 'cart' %}">Your Cart</a><br />
+                        <a href="{% url 'my_orders' %}">Your Orders</a><br />
+                        <a href="">Track Orders</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Username</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.username}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>First Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.first_name}}</p>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Last Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.last_name}}</p>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.email}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Phone</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.phone}}</p>
+                                </div>
+                            </div><br>
+                            {% for address in addresses %}
+                             {% if address.is_active %} 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Address :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{address.house}}, {{address.city}}, {{address.state}}, {{address.country}}, {{address.zip}}</p>
+                                </div>
+                            </div><br>
+                            {% endif %} 
+                            {% endfor %}
+                            
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Username</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="username"
+                                            value="{{user.username}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>First Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="first_name"
+                                            value="{{user.first_name}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Last Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="last_name"
+                                            value="{{user.last_name}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="email" value="{{user.email}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="phone" value="{{user.phone}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                            
+                                    </div>
+                                    <div class="col-md-2 m-3">
+                                        <input type="submit" class="btn btn-secondary" name="btnAddMore" value="Save Edits" />
+                                    </div>
+                                </div>
+        </form>
+
+        <!-- Address Area start -->
+
+        <!-- Address1 start -->
+        {% if addresses %}
+        {% for address in addresses %}
+        {% if address.is_active %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label>Address :</label>
+            </div>
+            <div class="col-md-6">
+
+                <a class="text-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">  {{address.house}}, {{address.city}}, {{address.state}}, {{address.country}}, {{address.zip}}----</a>
+                <a class="text-danger text-decoration-none"  href="{% url 'delete_address' address.id %}">Remove</a>
+                <form action="{% url 'update_address' address.id %}" method='POST'>
+                    {% csrf_token %}
+                    <div class="modal" id="exampleModal1" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Address1</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="" name="house1"
+                                            value="{{address.house}}" placeholder="House No"
+                                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'House No'">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="" name="city1" placeholder="City"
+                                        value="{{address.city}}"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="" name="state1" placeholder="State" value="{{address.state}}"
+                                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="" name="zip1" placeholder="Zip Code" value="{{address.zip}}"
+                                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code'">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="" name="country1" value="{{address.country}}"
+                                            placeholder="Country" onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Country'">
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <button type="submit" value="submit" 
+                                            class="primary-btn">Change Address</button>
+                                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</br>
+    <div class="row">
+        <div class="col-md-6">
+            
+        </div>
+        <div class="col-md-6">
+
+            <a class="btn btn-secondary" href="" data-bs-toggle="modal" data-bs-target="#exampleModal2">--Add New Address--</a>
+            <form action="{% url 'add_address'  %}" method='POST'>
+                {% csrf_token %}
+                <div class="modal" id="exampleModal2" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Address1</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control" id="" name="house1" required
+                                        value="" placeholder="House No"
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'House No'">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control" id="" name="city1" placeholder="City" required
+                                    value=""  onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control" id="" name="state1" placeholder="State" value="" required
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control" id="" name="zip1" placeholder="Zip Code" value="" required
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code'">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <input type="text" class="form-control" id="" name="country1" value="" required 
+                                        placeholder="Country" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Country'">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <button type="submit" value="Save" 
+                                        class="primary-btn">Save Address</button>
+                                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+   
+   
+
+    </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+
+</html>
+{% endblock content %}` `

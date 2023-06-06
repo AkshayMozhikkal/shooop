@@ -1,0 +1,71 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div style="height: 100px;"></div>
+
+<!--================Single Product Area =================-->
+<div style="height: 100px;" class="row d-flex justify-content-center mt-5 "><h3 class="mt-5" style="color: gray; font-weight: bolder;">Wishlist</h3></div>
+{% if wishlist %}
+{% for item in wishlist %}
+<div class="product_image_area m-3 ">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                {% if item.product.image  %}
+                <div class="s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="{{item.product.image.url}}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="{{item.product.image.url}}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="{{item.product.image.url}}" alt="">
+                    </div>
+                </div>
+                {% else %}
+                <div class="single-prd-item">
+                    <img class="img-fluid" src="{{default_image_url}}" alt="No image">
+                </div>
+
+                {% endif %}
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>{{item.product.prod_name}}</h3>
+                    <h2>Rs.{{item.product.price}}</h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> : {{item.product.ideal_for}}, {{item.product.occassion}}</a></li>
+                        <li><a href="#"><span>Size</span> : {{item.product.size}}</a></li>
+                    </ul>
+                    <p>{{item.product.descr}}.</p>
+                
+                    <div class="card_area d-flex align-items-center">
+                        <a class="primary-btn" href="{% url 'add_to_cart' item.product.id  %}">Add to Cart</a>
+                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+                        <a class="icon_btn" href="{% url 'wishlist_remove' item.id %}"><i class="lnr lnr lnr-heart"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+{% endfor %}
+
+{% else %}
+
+<div class="product_image_area m-3 ">
+    <div class="container">
+        <div class="row s_product_inner">
+            <h5 style="color: darkgoldenrod;">You have nothing in your Wishlist..Please add your interested products from the Shop..!!</h5>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<div style="height: 100px;"></div>
+
+
+{% endblock %}

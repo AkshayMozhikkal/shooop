@@ -1,0 +1,296 @@
+ {% extends 'user/base.html' %}
+
+ {% load static %}
+ {% block content %}
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooop Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+ <body>
+    
+
+ <div style="height: 100px;" class="row d-flex justify-content-center "></div>
+ <!--================Cart Area =================-->
+   <!-- Start Messages Area -->
+   {% if messages %}
+   <div class="alert alert-danger alert-dismissible fade show h-auto" role="alert" style="position: relative;">
+       <button  type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+       {% for message in messages %}
+           <strong>{{ message }}</strong><br>
+       {% endfor %}
+   </div>
+   <script>
+       let closeButton = document.querySelector('.alert button');
+       closeButton.addEventListener('click', function () {
+           let alertBox = this.parentElement;
+           alertBox.style.display = 'none';
+       });
+   </script>
+   {% endif %}
+   <!-- Start Messages Area -->
+ <section class="cart_area">
+    <div class="container ">
+        <div style="height: 100px;" class="row d-flex justify-content-center "><h2 style="color: gray; font-weight: bolder;">Cart</h2></div>
+
+        <div class="cart_inner cartdata">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cart_obj %}
+                        {% for item in cart_obj %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img style="height:100px; width:100px;" src="{{ item.product_id.image.url}}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ item.product_id.prod_name}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5 >Rs: {{item.product_id.price}}</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input type="text" name="qty" id="sst" maxlength="12" value="{{item.product_count}}" title="Quantity:"
+                                        class="input-text qty">
+
+                                    <a class="changeQuantity" data-prod_id='{{item.id}}' data-prod_price='{{item.product_id.price}}' data-func="1"><button class="increase items-count " type="button"><i class="lnr lnr-chevron-up"></i></button></a>
+                                    <a class="changeQuantity" data-prod_id='{{item.id}}' data-prod_price='{{item.product_id.price}}' data-func="2"><button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button></a>
+
+                                </div>
+                            </td>
+                            <td>
+                                <h5>Rs: {{item.total_price}}</h5>
+                            </td>
+                            <td>
+                                <a class="btn btn-secondary changeQuantity" data-prod_id='{{item.id}}' data-prod_price='{{item.product_id.price}}' data-func="3" >Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                       <tr>
+                        <td>
+                        <h3 style="color: gray;">Cart is Empty, add products..!!</h3>
+                        </td>
+                       </tr> 
+                        {% endif %}
+                        
+                        <!-- <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="img/cart.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>Minimalistic shop for multipurpose use</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$360.00</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                                        class="input-text qty">
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                        class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                        class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$720.00</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="img/cart.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>Minimalistic shop for multipurpose use</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$360.00</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                                        class="input-text qty">
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                        class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                        class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$720.00</h5>
+                            </td>
+                        </tr> -->
+                        <tr class="bottom_button">
+                            <td>
+                                <a class="btn btn-secondary" href="{% url 'shop' %}">Update Cart</a>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="cupon_text d-flex align-items-center">
+                                    <input type="text" placeholder="Coupon Code">
+                                    <a class="primary-btn" href="#">Apply</a>
+                                    <a class="btn btn-secondary" href="#"> Close Coupon</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5>{{total_price}}</h5>
+                            </td>
+                        </tr>
+                        <tr class="shipping_area">
+                            <td> </td>
+                            <td> </td>
+                            
+                            <td>
+                                <h5>Shipping</h5><br>
+                            </td>
+                            <td>
+                                <div  class="shipping_box pt-3 mt-3">
+                                    <ul class="list">
+                                        <li><a href="#">Flat Rate: $5.00</a></li>
+                                        <li><a href="#">Free Shipping</a></li>
+                                        <li><a href="#">Flat Rate: $10.00</a></li>
+                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
+                                    </ul>
+                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
+                                    <select class="shipping_select">
+                                        <option value="1">Bangladesh</option>
+                                        <option value="2">India</option>
+                                        <option value="4">Pakistan</option>
+                                    </select>
+                                    <select class="shipping_select">
+                                        <option value="1">Select a State</option>
+                                        <option value="2">Select a State</option>
+                                        <option value="4">Select a State</option>
+                                    </select>
+                                    <input type="text" placeholder="Postcode/Zipcode">
+                                    <a class="gray_btn" href="#">Update Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="btn btn-primary" href="#">Continue Shopping</a>
+                                    {% if cart_obj %}
+                                    <a class="primary-btn " href="{% url 'checkout' %}">Proceed to checkout</a>
+                                    {% else %}
+                                    <a class="primary-btn " href="#" disabled >Proceed to checkout</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Cart Area =================-->
+
+</body>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $(document).on('click', '.changeQuantity', function(e) {
+    e.preventDefault();
+    var prod_id = $(this).data('prod_id');
+    var prod_price = $(this).data('prod_price');
+    var func = $(this).data('func');
+    
+
+    var url = '';
+    if (func == 1) {
+      url = "/cart/increase_count/";
+    } else if (func == 2) {
+      url = "/cart/decrease_count/";
+    } else{
+        url = "/cart/cart_remove/";
+    }
+
+    $.ajax({
+      method: "POST",
+      url: url,
+      data: {
+        'prod_id': prod_id,
+        'prod_price': prod_price,
+        csrfmiddlewaretoken: '{{csrf_token}}'
+      },
+      success: function(response) {
+        console.log(response);
+        $('.cartdata').load(location.href + " .cartdata");
+
+      }
+    });
+  });
+});
+</script>
+
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
+
+
+{% endblock content %}
