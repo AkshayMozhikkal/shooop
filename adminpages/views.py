@@ -22,6 +22,7 @@ from io import BytesIO
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.views import View
+import json
 
 
 
@@ -32,9 +33,15 @@ def dashboard(request):
     if request.user.is_superuser:
         sales_by_day = Order.objects.annotate(day=TruncDay('time_of_order')).values('day').annotate(total_sales=Sum('total_amount')).order_by('day')
         print(sales_by_day)
+        # Convert sales_by_day queryset to a list of dictionaries
+        sales_data = list(sales_by_day.values('day', 'total_sales'))
+
+        # Serialize the data to JSON
+        sales_data_json = json.dumps(sales_data, default=str)
         
         context={
             'sales_by_day':sales_by_day,
+            'sales_by_day_json':sales_data_json
         }
         return render(request, 'admins/dashboard.html',context)
     else:

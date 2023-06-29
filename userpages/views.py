@@ -675,7 +675,6 @@ def razorpaycheck(request):
     new_price = request.GET.get('new_price')
     coupon_code2 = request.GET.get('coupon_code2')
     
-    print(coupon_code2,new_price ,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
     
     ordered_products = Cart.objects.filter(customer_id = request.user)
         
