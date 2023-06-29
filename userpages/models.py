@@ -14,7 +14,9 @@ class Address(models.Model):
     is_active = models.BooleanField(default=True)
     
 
-
+class User_otp(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    otp = models.BigIntegerField()
 
 
 

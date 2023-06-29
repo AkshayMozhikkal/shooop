@@ -15,7 +15,8 @@
 
 </head>
 <body>
-    <div class="container-fluid">
+  
+    <div class="container-fluid mt-2">
         <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Shooop</a>
@@ -62,6 +63,16 @@
               </div>
             </div>
           </nav>
+
+          {% if messages %}
+          {% for message in messages%}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>{{message}}</strong>
+          </div>
+          {% endfor %}
+          {% endif %}
+
     <table class="table table-striped">
         <thead>
           <tr>
@@ -69,29 +80,33 @@
             <th scope="col">Customer ID</th>
             <th scope="col">Name</th>
             <th scope="col">Shipping Address</th>
-            <th scope="col">Products</th>            
+            <th scope="col">Product</th>            
             <th scope="col">Order Amount</th>
+            <th scope="col">Payment Mode</th>
             <th scope="col">Time</th>
             <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
-          {% for order in orders %}
+          {% for ordered_product in ordered_products %}
           <tr>
-            <th scope="row">{{ order.id}} </th>
-            <td> {{ order.customer.username}}</td>
-            <td> {{ order.name_of_person }}</td>
-            <td> {{ order.address.house }}, {{ order.address.city }}, {{ order.address.state }}, {{ order.address.zip }}, {{ order.address.country }}</td>
-            <td> {% for item in items  %} {% if item.order_id.id == order.id %} {{item.product.prod_name}}, {% endif %}{% endfor %}</td>
-            <td> {{ order.total_amount }}</td>
-            <td> {{ order.time_of_order }}</td> 
-            <td style="color: green ;"> {{ order.status }}</td>
+            <th scope="row">{{ordered_product.order_id.id}} </th>
+            <td> {{ordered_product.order_id.customer.username}}</td>
+            <td> {{ ordered_product.order_id.name_of_person }}</td>
+            <td> {{ ordered_product.order_id.address.house }}, {{ ordered_product.order_id.address.city }}, {{ ordered_product.order_id.address.state }}, {{ ordered_product.order_id.address.zip }}, {{ ordered_product.order_id.address.country }}, {{ ordered_product.order_id.phone }}</td>
+            <td> {{ordered_product.product.product.prod_name}}({{ordered_product.quantity}} pieces) </td>
+            <td{% if ordered_product.status == 'Cancelled' %} style="text-decoration: line-through;"{% endif %}> {{ordered_product.amount}}{% if ordered_product.status != 'Cancelled' %} /{{ ordered_product.order_id.total_amount }}{% endif %}</td>
+            <td> {{ ordered_product.order_id.mode_of_payment }}</td> 
+            <td> {{ ordered_product.order_id.time_of_order }}</td> 
+            <td {% if ordered_product.status == 'Cancelled' %} style="color: red ;" {% else %}style="color: green ;"{% endif %} > {{ ordered_product.status }}</td>
           
 
              <!-- Modal Start -->
-
+            {% if ordered_product.status != 'Cancelled' and ordered_product.status != 'Returned'  %}
           <td> <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productModal2{{forloop.counter}}">edit</button> </td>
-              
+          {% else %}
+          <td> <button type="button" class="btn btn-outline-secondary" disabled>edit</button> </td>
+          {% endif %}
           <div class="modal fade" id="productModal2{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -103,10 +118,10 @@
                     </div>
 
                     <div class="modal-body">
-                        <form  method ="post" action="{% url 'update_order_status' order.id %}" enctype="multipart/form-data">
+                        <form  method ="post" action="{% url 'update_order_status' ordered_product.id %}" enctype="multipart/form-data">
                           {% csrf_token %}
 
-                          {% if order.status == 'Order Confirmed' %}
+                          {% if ordered_product.status == 'Order Confirmed' %}
                             <div class="form-group">
                               <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled checked>
                               <label for="dreamweaver" class="ml-2 mt-2" >Order Confirmed</label>
@@ -128,7 +143,7 @@
                             </div>
                             
                           </div>
-                          {% elif order.status == 'Shipped' %}
+                          {% elif ordered_product.status == 'Shipped' %}
                           <div class="form-group">
                             <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled >
                             <label for="dreamweaver" class="ml-2 mt-2" >Order Confirmed</label>
@@ -182,6 +197,7 @@
         </tbody>
       </table>
     </div>
+    <div style="height: 500px;"></div>
 </body> 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

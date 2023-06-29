@@ -6,6 +6,8 @@ urlpatterns = [
     path('login/', views.login, name='login' ),
     path('signup/', views.signup, name='signup' ),
     path('shop/', views.shop, name='shop' ),
+    path('product_search/', views.product_search, name='product_search'),
+    path('brand_filter/<int:brand_id>', views.brand_filter, name='brand_filter' ),
     path('profile/', views.profile, name='profile' ),
     path('update_address/<int:adrs_id>', views.update_address, name='update_address' ),
     path('add_address/', views.add_address, name='add_address' ),
@@ -18,7 +20,13 @@ urlpatterns = [
     path('place_order/', views.place_order, name='place_order' ),
     path('logout/', views.logout, name='logout' ),
     path('cart/', views.cart, name='cart' ),
+    path('proceedtopay/', views.razorpaycheck, name='proceedtopay'),
+    path('cancel_order/<int:ord>', views.cancel_order, name='cancel_order'),
+    path('return_item/', views.return_item, name='return_item'),
+    path('apply_coupon/', views.apply_coupon, name='apply_coupon'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    path('reset_password/', views.reset_password, name='reset_password'),
+   
     
     
-    # path('confirmation/', views.confirmation, name='confirmation' ),
 ]

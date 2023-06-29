@@ -14,6 +14,7 @@ import pytz
 from django.utils import timezone
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,10 +44,13 @@ INSTALLED_APPS = [
     'userpages',
     'products',
     'cart',
-    'orders'
+    'orders',
+    'mathfilters',
+    
 ]
 
 MIDDLEWARE = [
+    'shooop.middleware.LogoutRedirectMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -170,3 +174,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# RazorPay
+
+RAZORPAY_API_KEY = 'rzp_test_mwD4P8NcbZNoSv'
+RAZORPAY_API_SECRET = 'AkX9NiO5Ygy3bXJ6sTJ6bqNp'

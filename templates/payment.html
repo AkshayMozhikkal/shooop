@@ -1,0 +1,11 @@
+<!-- payment.html -->
+{% load static %}
+
+
+
+<form action="{% url 'payment' %}" method="POST">
+    {% csrf_token %}
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount"  id="amount" required >
+    <input type="submit" value="Pay">
+</form>

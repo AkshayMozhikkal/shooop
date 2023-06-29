@@ -63,7 +63,13 @@
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="brand" placeholder="Brand" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Brand'">
+                            <label  for="selectOption">Brand:</label> 
+                            <select class="form-control" id="selectOption" name="brand">
+                              
+                              {% for brand in brands  %}
+                              <option value="{{brand.id}}">{{brand.name}}</option>
+                              {% endfor %}
+                            </select>
                         </div>
 
                         <div class="col-md-12 form-group">
@@ -71,15 +77,27 @@
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="size" placeholder="size ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'size ID'">
+                          Size:
+                            <input type="number" class="form-control" id="" value="4" max="10" name="size" placeholder="size" onfocus="this.placeholder = ''" onblur="this.placeholder = 'size ID'">
                         </div>
                        
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="occassion" placeholder="Occassion" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Occassion'">
-                        </div>
+                            <label for="occassion">Occassion:</label>
+                            <select class="form-control" id="selectOption" name="occassion">
+                              <option value="Casuals">Casuals</option>
+                              <option value="Sports">Sports</option>
+                              <option value="Formals">Formals</option>
+                            </select>
+                          </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="ideal_for" placeholder="Ideal For" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ideal For'">
+                            <label for="ideal_for">Ideal For:</label>
+                            <select class="form-control" id="selectOption" name="ideal_for">
+                              <option value="Men">Men</option>
+                              <option value="Women">Women</option>
+                              <option value="Kids">Kids</option>
+                            </select>
+                        
                         </div>
 
                         <div class="col-md-12 form-group">
@@ -91,19 +109,21 @@
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="offers" placeholder="offers" onfocus="this.placeholder = ''" onblur="this.placeholder = 'offers'">
+                          <label  for="selectOption2">Offers:</label> 
+                          <select class="form-control" id="selectOption2" name="offers">
+                            <option value="">Choose..</option>
+                            {% for offer in offers  %}
+                            <option value="{{offer.id}}">{{offer.name}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+
+                        <div class="col-md-12 form-group">
+                            <input type="number" class="form-control" id="" name="stock" placeholder="stock" onfocus="this.placeholder = ''" onblur="this.placeholder = 'stock'" required>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="coupon" placeholder="coupon" onfocus="this.placeholder = ''" onblur="this.placeholder = 'coupon'">
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="stock" placeholder="stock" onfocus="this.placeholder = ''" onblur="this.placeholder = 'stock'">
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="price" placeholder="price" onfocus="this.placeholder = ''" onblur="this.placeholder = 'price'">
+                            <input type="number" class="form-control" id="" name="price" placeholder="price" onfocus="this.placeholder = ''" onblur="this.placeholder = 'price'" required>
                         </div>
 
                         <div class="col-md-12 form-group">

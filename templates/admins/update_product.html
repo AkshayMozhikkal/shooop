@@ -1,5 +1,52 @@
 {% extends 'admins/base.html' %}
+{% load static %}
 {% block content %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="img/fav.png">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Shooop</title>
+	<link rel="icon" type="image/png" href="{% static 'user/img/Logoos/shoe3.png'%}"/>
+	<!--
+		CSS
+		============================================= -->
+	<link rel="stylesheet" href="{%static 'user/css/linearicons.css'%}">
+		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nice-select.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css ' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css ' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/main.css ' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Default theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/themes/default.min.css"/>
+
+	</head>
+
+<body>
+
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
@@ -59,50 +106,79 @@
                         {% csrf_token %}
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="prod_name" value="{{item.prod_name}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Product Name'">
+                          <label for="prod_name">Name:</label>
+
+                            <input type="text" class="form-control" id="" name="prod_name" value="{{item.prod_name}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Product Name'" required>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="brand" value="{{item.brand}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Brand'">
-                        </div>
+                          <label  for="selectOption">Brand:</label> 
+
+                          <select class="form-control" id="selectOption" name="brand">
+                            <option value="{{item.brand.id}}">{{item.brand}}</option>
+                            {% for brand in brands  %}
+                            <option value="{{brand.id}}">{{brand.name}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
 
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="" name="color" value="{{item.color}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'color'">
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="size" value="{{item.size}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'size ID'">
+                          Size:
+                            <input type="number" class="form-control" id="" value="4" max="10" name="size" placeholder="size" onfocus="this.placeholder = ''" onblur="this.placeholder = 'size ID'">
                         </div>
                        
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="occassion" value="{{item.occassion}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Occassion'">
+                            <label for="occassion">Occassion:</label>
+                            <select class="form-control" id="selectOption" name="occassion">
+                              <option value="{{item.occassion}}">{{item.occassion}}</option>
+                              <option value="Casuals">Casuals</option>
+                              <option value="Sports">Sports</option>
+                              <option value="Formals">Formals</option>
+                            </select>
+                          </div>
+
+                        <div class="col-md-12 form-group">
+                            <label for="ideal_for">Ideal For:</label>
+                            <select class="form-control" id="selectOption" name="ideal_for">
+                              <option value="{{item.ideal_for}}">{{item.ideal_for}}</option>
+                              <option value="Men">Men</option>
+                              <option value="Women">Women</option>
+                              <option value="Kids">Kids</option>
+                            </select>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="ideal_for" value="{{item.ideal_for}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ideal For'">
+                          <label for="descr">Description:</label>
+                            <textarea type="text" class="form-control" id="" name="descr"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'descr'">{{item.descr}}</textarea>
+                            
+                          </div>
+
+                        <div class="col-md-12 form-group">
+                          <label for="image">Image:</label>
+                            <input type="file" class="form-control" id="" name="image" accept="image/png, image/jpeg, image/png " onfocus="this.placeholder = ''" onblur="this.placeholder = 'image'">
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="" name="descr" value="{{item.descr}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'descr'">
-                        </div>
-
+                          <label  for="selectOption2">Offers:</label> 
+                          <select class="form-control" id="selectOption2" name="offers">
+                            <option value="{{item.offers.id}}">{{item.offers.name}}</option>
+                            {% for offer in offers  %}
+                            <option value="{{item.offers.id}}">{{item.offers.name}}</option>
+                            <option value="{{offer.id}}">{{offer.name}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
                         <div class="col-md-12 form-group">
-                            <input type="file" class="form-control" id="" name="image" accept="image/png, image/jpeg, image/png " value="{{item.image.url}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'image'">
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="offers" value="{{item.offers}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'offers'">
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <input type="number" class="form-control" id="" name="coupon" value="{{item.coupon}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'coupon'">
-                        </div>
-
-                        <div class="col-md-12 form-group">
+                          <label for="stock">Stock:</label>
                             <input type="number" class="form-control" id="" name="stock" value="{{item.stock}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'stock'">
                         </div>
 
                         <div class="col-md-12 form-group">
+                          <label for="price">Price:</label>
                             <input type="number" class="form-control" id="" name="price" value="{{item.price}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'price'">
                         </div>
 
@@ -117,4 +193,7 @@
     </div>
 </section>
 <!--================End Add Product Area =================-->
+</body>
+
+</html>
 {% endblock content %}

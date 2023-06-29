@@ -1,7 +1,87 @@
 {% extends 'user/base.html' %}
-
+{% load static %}
 {% block content %}
 
+
+{% if second %}
+
+<!--================Single Product Area =================-->
+<div class="product_image_area m-5 ">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                {% if product.product.image  %}
+                <div class="s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid big_img" src="{{product.product.image.url}}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid big_img" src="{{product.product.image.url}}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid big_img" src="{{product.product.image.url}}" alt="">
+                    </div>
+                </div>
+                {% else %}
+                <div class="single-prd-item">
+                    <img class="img-fluid" style="height: 200px; width: 200px;" src="{% static 'user/img/banner/No_Image.jpg' %}" alt="No image">
+                </div>
+
+                {% endif %}
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>{{product.product.prod_name}}</h3>
+                    {% if product.product.offers %}
+                    <h3 style=" color: blue;">Actual Price: ₹ <span style="text-decoration: line-through;" >{{product.price}}</span> </h3>
+                    <h2>{{product.product.offers.name}} Price : ₹ {{product.offer_price}} <span >Only..!!</span> </h2>
+
+                    {% else %}
+                    <h2>₹ {{product.price}}</h2>
+                    {% endif %}
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> : {{product.product.ideal_for}}, {{product.product.occassion}}</a></li>
+
+                        <li><a data-toggle="collapse" aria-expanded="false"  href="#fruitsVegetable" ><span class="text-primary">Size</span> : {{product.size}}</a>
+                            <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
+                                {% if variations %}
+                                {% for variant in variations %}
+                                <li class="main-nav-list child"><a href="{% url 'single_product' product.id variant.id %}">Size<span class="number">({{variant.size}})</span></a></li>
+                                {% endfor %}
+                                {% else %}
+                                <li class="main-nav-list child"><a href="#">No more sizes available<span class="number">(0)</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <p>{{product.product.descr}}.</p>
+                    <div class="product_count">
+                        {% if product.stock == 0  %}
+                        <img src="{% static 'user/img/banner/OutofStock.jpg' %}" alt="" style="height: 100px; width: 150px;">
+                        {% else %}
+                        <a class="active" href="#"><span>In Stock:</span><span style="color:green;">  {{product.stock}}</span></a>
+                        {% endif %}
+                    
+                    </div>
+                    <div class="card_area d-flex align-items-center">
+                        {% if product.stock > 0  %}
+                        <a class="primary-btn" href="{% url 'add_to_cart' product.id  %}">Add to Cart</a>
+                       
+                        {% endif %}
+                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+                        <a class="icon_btn" href="{% url 'add_to_wishlist' product.product.id  %}" ><i class="lnr lnr lnr-heart"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+<div style="height: 100px;"></div>
+
+
+{% else %}
 <!--================Single Product Area =================-->
 <div class="product_image_area m-5 ">
     <div class="container">
@@ -29,24 +109,38 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
                     <h3>{{product.prod_name}}</h3>
-                    <h2>Rs.{{product.price}}</h2>
+                    <h2>₹ {{product.price}}</h2>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Category</span> : {{product.ideal_for}}, {{product.occassion}}</a></li>
-                        <li><a href="#"><span>Size</span> :{{product.size}}</a></li>
+
+                        <li><a data-toggle="collapse" aria-expanded="false"  href="#fruitsVegetable" ><span class="text-primary">Size</span> : Select Size</a>
+                            <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
+                                {% if variations %}
+                                {% for variant in variations %}
+                                <li class="main-nav-list child"><a href="{% url 'single_product' product.id variant.id %}">Size<span class="number">({{variant.size}})</span></a></li>
+                                {% endfor %}
+                                {% else %}
+                                <li class="main-nav-list child"><a href="#">No more sizes available<span class="number">(0)</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+
                     </ul>
                     <p>{{product.descr}}.</p>
                     <div class="product_count">
-                        <label for="qty">Quantity:</label>
-                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                         class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                         class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                        
+                       
+                        
+                        <a class="active" href="#"><span>In Stock:</span><span style="color:hotpink;">  Select a size to see availability..!</span></a>
+                        
+                    
                     </div>
                     <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="{% url 'add_to_cart' product.id  %}">Add to Cart</a>
+                        
+                        <a class="primary-btn" href="#">Select size & Add to Cart</a>
+                       
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                        <a class="icon_btn" href="{% url 'add_to_wishlist' product.id  %}"><i class="lnr lnr lnr-heart"></i></a>
                     </div>
                 </div>
             </div>
@@ -56,6 +150,8 @@
 <!--================End Single Product Area =================-->
 <div style="height: 100px;"></div>
 
+
+{% endif %}
 <script>
 
 </script>

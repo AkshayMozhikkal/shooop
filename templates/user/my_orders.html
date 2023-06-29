@@ -8,9 +8,8 @@
 <div style="height: 50px;" class="row d-flex justify-content-center "><h2 style="color: gray; font-weight: bolder;">Orders</h2></div>
 <div class="col my-5 pb-5">
     {% if orders %}
-<table class="table table ">
+<table class="table table">
     <thead>
-
       <tr>
         <th scope="col">#Order ID</th>
         <th scope="col">Product</th>
@@ -18,27 +17,88 @@
         <th scope="col">Quantity</th>
         <th scope="col">Total</th>
         <th scope="col">Time of Order</th>
+        {% comment %} <th scope="col">Payment Mode</th> {% endcomment %}
         <th scope="col">Status</th>
+        <th scope="col">Action</th>
       </tr>
-
     </thead>
+
     <tbody>
     {% for order in orders %}
     {% for item  in ord_products %}
     {% if item.order_id.id == order.id %}
        <tr>
         <th scope="row">{{item.order_id.id}}</th>
-        <td>{{item.product.prod_name}}</td>
-        <td>{{item.product.price}}</td>
+        <td>{{item.product.product.prod_name}}({{item.product.size}})</td>
+        <td {% if item.status == 'Cancelled' %}style="text-decoration: line-through;"{% endif %} >{{item.product.price}}</td>
         <td>{{item.quantity}}</td>
-        <td>{{item.amount}}</td>
+        <td {% if item.status == 'Cancelled' %}style="text-decoration: line-through;"{% endif %}>{{item.amount}}</td>
         <td>{{item.order_id.time_of_order}}</td>
-        <td>{{item.order_id.status}}</td>
+        {% comment %} <td>{{item.order_id.mode_of_payment}}</td> {% endcomment %}
+        <td>{{item.status}}</td>
+        {% if item.status == 'Delivered' %}
+        <td>
+          <a class="text-success" data-bs-toggle="modal" data-bs-target="#exampleModal1{{forloop.counter}}">Return</a>
+
+          <!-- /////////////////Modal Body/////////////////////// -->
+
+<div class="modal fade mt-5" id="exampleModal1{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Return Order</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form action="{% url 'return_item' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="item" value="{{item.id}}">
+                  
+                  <div class="mb-3">
+                      <label for="return_reason" class="form-label">Return Reason:</label>
+                      <select class="form-select" name="return_reason" id="return_reason">
+                          <option value="Damaged Products">Damaged Products</option>
+                          <option value="Wrong item">Wrong item</option>
+                          <option value="Poor Quality">Poor Quality</option>
+                          <option value="Ordered by mistake">Ordered by mistake</option>
+                      </select>
+                  </div>
+                  
+                  <div class="mb-3">
+                      <label for="return_comment" class="form-label">Return Comment:</label>
+                      <textarea class="form-control" name="return_comment" id="return_comment" rows="3"></textarea>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-danger">Confirm</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- //////////////////Modal Body End////////////////////// -->
+        </td>
+        {% elif item.status == 'Cancelled' %}
+        <td><a class="text-secondary" href="#">Order Cancelled</a></td>
+        {% elif item.status == 'Returned' %}
+        <td><a class="text-secondary" href="#">Returned</a></td>
+        {% else %}
+        <td><a class="text-danger" href="{% url 'cancel_order' item.id %}">--Cancel Order--</a></td>
+        {% endif %}
       </tr>
       {% endif %}
-      {% endfor %}      
+      {% endfor %} 
+      {% for coupon in coupons_used %}
+      {% if coupon.order.id == order.id %}
+      <td>Coupon Discount:</td>
+      <td>Rs. {{coupon.coupon.discount}} </td>
+      <tr><td></td><td></td></tr>
+      <tr></tr>
+      {% endif %}
+      {% endfor %}     
       <td><h5>Order #{{order.id}} Total:</h5></td>
-      <td><h5> Rs. {{order.total_amount}}/-</h5></td>
+      <td><h5>{% if order.total_amount > 0  %}Rs. {{order.total_amount}}/- {% else %}Rs. 0 (Order Cancelled){% endif %} </h5></td>
       <tr><td></td><td></td></tr>
       <tr></tr>
     
@@ -56,6 +116,12 @@
 </div>
 </div>
 <div style="height: 150px;"></div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
         
 
 {% endblock %}

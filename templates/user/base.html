@@ -47,10 +47,10 @@
 	<!-- Start Header Area -->
 	<header class="header_area sticky-header">
 		<div class="main_menu">
-			<nav class="navbar navbar-expand-lg navbar-light main_box">
+			<nav class="navbar navbar-expand-lg navbar-dark main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h"  href="index.html"><img style="width:90px; height: 50px;" src="{% static 'user/img/Logoos/shoe1.png' %}" alt=""></a>
+					<a class="navbar-brand logo_h"  href="#"><img style="width:90px; height: 50px;" class="ml-3 " src="{% static 'user/img/Logoos/shoe1.png' %}" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -67,9 +67,9 @@
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link" href="{% url 'shop'%}">Shop Category</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'wishlist' %}">Wishlist</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'checkout' %}">Product Checkout</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Shopping Cart</a></li>
-									<li class="nav-item"><a class="nav-link" href="confirmation.html">Orders</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'checkout' %}">Product Checkout</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'my_orders' %}">Orders</a></li>
 								</ul>
 							</li>
 							<li class="nav-item submenu dropdown">
@@ -199,7 +199,7 @@
 							<a href="#"><i class="fa fa-twitter"></i></a>
 							<a href="#"><i class="fa fa-dribbble"></i></a>
 							<a href="#"><i class="fa fa-behance"></i></a>
-						</div>
+						</div> 
 					</div>
 				</div>
 			</div>

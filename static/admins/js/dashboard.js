@@ -4,6 +4,9 @@
   'use strict'
 
   feather.replace({ 'aria-hidden': 'true' })
+ var sales_by_day = document.getElementById('sales_by_day').value;
+ console.log(sales_by_day);
+
 
   // Graphs
   const ctx = document.getElementById('myChart')
@@ -21,15 +24,7 @@
         'Saturday'
       ],
       datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
+        data: sales_by_day,
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',

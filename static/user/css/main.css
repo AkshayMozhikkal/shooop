@@ -1563,7 +1563,7 @@ h1, h2, h3, h4, h5, h6 {
         top: 3px;
         width: 100px;
         left: -40px;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */
         font-family: "Poppins", sans-serif;
         font-weight: 500;
         font-size: 12px;
@@ -2698,7 +2698,7 @@ label {
     content: "";
     width: 100%;
     height: 1px;
-    background: #eeeeee;
+    background: #eeeeee63;
     left: 0;
     bottom: 0;
     z-index: 1; }
@@ -3115,7 +3115,9 @@ label {
 
 .filter-bar {
   padding: 0px 20px 10px 20px;
-  background: #828bb3; }
+  background: #eeeeee63;
+  border-radius: 3px;
+ }
   .filter-bar a, .filter-bar i {
     color: #000; }
 
@@ -3291,11 +3293,11 @@ label {
 
 .sidebar-categories .head {
   line-height: 60px;
-  background: #828bb3;
+  background: #eeeeee63;
   padding: 0 30px;
   font-size: 16px;
   font-weight: 400;
-  color: #fff; }
+  color: #e278e18f; }
 .sidebar-categories .main-categories {
   padding: 0 20px;
   background: #fff;
@@ -3321,11 +3323,11 @@ label {
   margin-top: 50px; }
   .sidebar-filter .top-filter-head {
     line-height: 60px;
-    background: #828bb3;
+    background: #eeeeee63;
     padding: 0 30px;
     font-size: 16px;
     font-weight: 400;
-    color: #fff; }
+    color: #e278e18f; }
   .sidebar-filter .head {
     line-height: 60px;
     padding: 0 30px;

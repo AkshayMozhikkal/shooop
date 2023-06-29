@@ -54,6 +54,16 @@
             </div>
           </nav>
 
+          <!-- Messages Area Start -->
+          {% if messages %}
+                    {% for message in messages%}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>{{message}}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+          <!--- Messages Area End -->
           
           <div class="row">
             <div class="col">

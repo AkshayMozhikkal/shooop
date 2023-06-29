@@ -1,0 +1,225 @@
+{% extends 'admins/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooop Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+</head>
+<body>
+  
+    <div class="container-fluid mt-2">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Shooop</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'products' %}">Products</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'users_list' %}">Customers</a>
+                  </li>
+                  
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li> -->
+                  <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li> -->
+                  {% comment %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'products' %}">Product Details</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link " href="{% url 'add_product' %}">Add New Product</a>
+                  </li> {% endcomment %}
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+          <div style="height: 50px;"></div>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+
+            <th scope="col">Coupon ID</th>
+            <th scope="col">Coupon Code</th>
+            <th scope="col">Discount Amount</th>
+            <th scope="col">Minimum Purchase</th>
+            <th scope="col">Status</th> 
+            <th scope="col">Update</th>            
+           
+           
+          </tr>
+        </thead>
+        <tbody>
+          {% for coupon in coupons %}
+          <tr>
+            <th scope="row">{{coupon.id}} </th>
+            <td> {{coupon.code}}</td>
+            <td> {{coupon.discount}}</td>
+            <td> {{coupon.minimum_price}}</td> 
+            <td>{% if coupon.is_expired == False  %} Active {% else %} Inactive {% endif %} </td> 
+           
+          
+
+             
+            
+          <td> <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productModal2{{forloop.counter}}">edit</button> </td>
+          
+          
+          <!-- Modal Start -->
+          <div class="modal fade" id="productModal2{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel">Edit Coupon</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form  method ="post" action="{% url 'coupons'  %}" enctype="multipart/form-data">
+                          {% csrf_token %}
+
+                          
+                          <div class="form-group">
+                            <input  type="text" name="coupon_id" value="{{coupon.id}}" hidden >
+                            <label for="dreamweaver" class="ml-2 mt-2" >Coupon Code</label>
+                            <input class="mx-3 form-control" type="text" name="code" value="{{coupon.code}}"  >
+                            
+                          </div>
+                          <div class="form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Discount </label>
+                            <input class="mx-3 form-control" type="number" name="discount" value="{{coupon.discount}}" >
+                            
+                          </div>
+                          <div class="form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Minimum Purchase</label>
+                            <input class="mx-3 form-control" type="number" name="minimum_price" value="{{coupon.minimum_price}}"  >
+                           
+                          </div>
+                          <div class="form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Expired ? </label><br>
+                            Yes<input type="radio" name="is_expired" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid red;" value="True">
+                            No<input   type="radio" name="is_expired" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(22, 244, 59);" value="False">
+                            
+                          </div>
+                      
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                  </form>
+                </div>
+      <!-- Modal End -->
+          </tr>
+          {% endfor %} 
+
+         
+
+
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center align-items-center" style="height: 500px;"> 
+        <a class="btn btn-secondary" href="" data-bs-toggle="modal"
+        data-bs-target="#exampleModal3">--Add New Coupon--</a>
+        
+    <!-- Add Coupon Modal Start-->
+
+    <div class="modal" id="exampleModal3" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Coupon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'add_coupon'  %}" method='POST'>
+                        {% csrf_token %}
+
+                        <div class="col-md-12 form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Coupon Code</label>
+                            <input class="mx-3 form-control" type="text" name="code" value="{{coupon.code}}"  >
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Discount </label>
+                            <input class="mx-3 form-control" type="number" name="discount" value="{{coupon.discount}}" >
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Minimum Purchase</label>
+                            <input class="mx-3 form-control" type="number" name="minimum_price" value="{{coupon.minimum_price}}"  >
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label for="dreamweaver" class="ml-2 mt-2" >Activate now ? </label><br>
+                            Yes<input type="radio" name="is_expired" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid red;" value="False">
+                            No<input   type="radio" name="is_expired" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(22, 244, 59);" value="True">
+                        </div>
+
+                        
+
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="Save" class="btn btn-primary">Add Coupon</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Modal End -->
+    </div>
+</body> 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
+
+
+
+<div style="height: 250px;"></div>
+{% endblock content %}

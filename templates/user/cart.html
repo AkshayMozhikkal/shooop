@@ -1,5 +1,4 @@
  {% extends 'user/base.html' %}
-
  {% load static %}
  {% block content %}
 
@@ -12,6 +11,7 @@
     <title>Shooop Admin</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
 </head>
 
  <body>
@@ -58,15 +58,20 @@
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img style="height:100px; width:100px;" src="{{ item.product_id.image.url}}" alt="">
+                                        <img style="height:100px; width:100px;" src="{{ item.product_id.product.image.url}}" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <p>{{ item.product_id.prod_name}}</p>
+                                        <p>{{ item.product_id.product.prod_name}} (Size={{ item.product_id.size}})</p>
                                     </div>
                                 </div>
                             </td>
+                            
                             <td>
-                                <h5 >Rs: {{item.product_id.price}}</h5>
+                                {% if item.product_id.product.offers %}
+                                <h5 >₹{{item.product_id.offer_price}}</h5>
+                                {% else %}
+                                <h5 >₹{{item.product_id.price}}</h5>
+                                {% endif %}
                             </td>
                             <td>
                                 <div class="product_count">
@@ -79,7 +84,8 @@
                                 </div>
                             </td>
                             <td>
-                                <h5>Rs: {{item.total_price}}</h5>
+                                
+                                <h5>₹{{item.total_price}}</h5>
                             </td>
                             <td>
                                 <a class="btn btn-secondary changeQuantity" data-prod_id='{{item.id}}' data-prod_price='{{item.product_id.price}}' data-func="3" >Remove</a>
@@ -157,6 +163,7 @@
                             <td>
 
                             </td>
+                            
                             <td>
 
                             </td>
@@ -179,7 +186,7 @@
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5>{{total_price}}</h5>
+                                <h5>₹{{total_price}}</h5>
                             </td>
                         </tr>
                         <tr class="shipping_area">
@@ -244,6 +251,8 @@
 
 </body>
 
+
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
@@ -278,6 +287,7 @@ $(document).ready(function() {
       },
       success: function(response) {
         console.log(response);
+        alertify.error(response.message);
         $('.cartdata').load(location.href + " .cartdata");
 
       }
@@ -293,4 +303,4 @@ $(document).ready(function() {
 </html>
 
 
-{% endblock content %}
+{% endblock %}
