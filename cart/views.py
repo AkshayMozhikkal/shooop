@@ -12,6 +12,8 @@ from django.http import JsonResponse
 
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
+@login_required
 def add_to_cart(request,prod_id):
     
     variant = Variation.objects.get(id=prod_id)
@@ -30,6 +32,8 @@ def add_to_cart(request,prod_id):
 
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
+@login_required
 def increase_count(request):
     prod_id = int(request.POST.get('prod_id'))
     price =int(request.POST.get('prod_price'))
@@ -48,7 +52,9 @@ def increase_count(request):
         return JsonResponse({'message': 'Quantity increased..',})
     
     
-    
+ 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
+@login_required   
 def decrease_count(request):
     prod_id = int(request.POST.get('prod_id'))
     price =int(request.POST.get('prod_price'))
@@ -68,6 +74,8 @@ def decrease_count(request):
         
            
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
+@login_required
 def cart_remove(request):
     prod_id = int(request.POST.get('prod_id'))
     

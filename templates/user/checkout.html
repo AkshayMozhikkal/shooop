@@ -192,8 +192,8 @@
                                 <li><a href="#">Subtotal <span>Rs:{{total_price}}</span></a></li><br>
                                 <span id="coupon_discounts"></span><br>
                                 <span id="new_tot"></span>
-                                <input type="number" name="new_price" id="new_price" hidden>
-                                <input type="text" id="coupon_code2" name="coupon_code2" hidden>
+                                <input type="number" name="new_price" id="new_price" >
+                                <input type="text" id="coupon_code2" name="coupon_code2" >
                             </ul>
 
                                 <!-- Coupon Code Start -->
@@ -340,6 +340,43 @@
    <!-- Sweet Alertt -->   
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+ <!-- Coupon Apply Start -->
+
+ <script>
+    $(document).ready(function() {
+      $(document).on('click', '#apply_coupon', function(e) {
+        e.preventDefault();
+        var coupon_code = document.getElementById('coupon_code').value;
+        var order_total = document.getElementById('order_total').value;
+        console.log(coupon_code, order_total)
+    
+        $.ajax({
+          method: "POST",
+          url: "/apply_coupon/",
+
+          data: {
+            'coupon_code': coupon_code,
+            'order_total':order_total,
+            csrfmiddlewaretoken: '{{csrf_token}}'
+          },
+
+          success: function(response) {
+            console.log(response);
+            alertify.error(response.status);
+            
+            document.getElementById('new_tot').innerHTML = "Discounted Price: Rs."+response.new_total;
+            document.getElementById('new_price').value = response.new_total;
+            document.getElementById('coupon_code2').value = response.coupon_code;
+            document.getElementById('coupon_discounts').innerHTML = "Coupon Discount: Rs."+response.coupon_discount;
+            
+            // $('.subtotal').load(location.href + " .subtotal");
+    
+          }
+        });
+      });
+    });
+    </script>
+    <!-- Coupon Apply End  -->
 
   <!-- Razor Pay Start -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -359,10 +396,17 @@
           var selectedAddress = $("input[name='delivery_address']:checked").val();
 
           console.log(new_price, coupon_code2)
+          if(!phone || phone=="0")
+          {
+            swal("Alert!", "Phone Number required!", "error");
+            console.log('Contact Number Empty');
+            return false;
+    
+          }
           if(!selectedAddress)
           {
             swal("Alert!", "Address fields is mandatory!", "error");
-            console.log('All fields are empty');
+            console.log('Address fields are empty');
             return false;
     
           }
@@ -377,7 +421,7 @@
                       csrfmiddlewaretoken: token },
 
                success: function(response) {
-                console.log(response)
+                console.log(response,"hhhhh")
                 var options = {
                   "key": "rzp_test_mwD4P8NcbZNoSv", // Enter the Key ID generated from the Dashboard
                   "amount": response.total_price*1,//response.total_price * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -399,12 +443,12 @@
                       }
                         $.ajax({
                           method:"POST",
-                          url:"{% url 'place_order' %} ",
+                          url:"{% url 'place_order' %}",
                           data: data,
                           success: function (responsec) {
-                            console.log(responsec)
+                            console.log(responsec.status,"kkkkk")
                             swal("Congratulations!", responsec.status,"success").then((value) => {
-                                window.location.href = '/my_orders/'
+                                window.location.href = '/my_orders/';
                             });
                           }
     
@@ -445,41 +489,7 @@
   <!-- Razor Pay End -->
   
 
-  <!-- Coupon Apply Start -->
-
-<script>
-    $(document).ready(function() {
-      $(document).on('click', '#apply_coupon', function(e) {
-        e.preventDefault();
-        var coupon_code = document.getElementById('coupon_code').value;
-        var order_total = document.getElementById('order_total').value;
-        console.log(coupon_code, order_total)
-    
-        $.ajax({
-          method: "POST",
-          url: "/apply_coupon/",
-
-          data: {
-            'coupon_code': coupon_code,
-            'order_total':order_total,
-            csrfmiddlewaretoken: '{{csrf_token}}'
-          },
-
-          success: function(response) {
-            console.log(response);
-            alertify.error(response.status);
-            document.getElementById('new_tot').innerHTML = "Discounted Price: Rs."+response.new_total;
-            document.getElementById('new_price').value = response.new_total;
-            document.getElementById('coupon_code2').value = response.coupon_code;
-            document.getElementById('coupon_discounts').innerHTML = "Coupon Discount: Rs."+response.coupon_discount;
-            // $('.subtotal').load(location.href + " .subtotal");
-    
-          }
-        });
-      });
-    });
-    </script>
-    <!-- Coupon Apply End  -->
+ 
   </html> 
 
 {% endblock %}

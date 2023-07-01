@@ -129,6 +129,9 @@ def forgot_password(request):
 
 
 # Reset Password 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
+@login_required
 def reset_password(request):
    curr_pass = request.POST.get('curr_pass')
    new_pass1 = request.POST.get('new_pass')
@@ -253,8 +256,6 @@ def signup(request):
 
 
 #Shop Page
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
-@login_required
 def shop(request):
     
     products_data = {
@@ -279,8 +280,7 @@ def product_search(request):
 
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)     
-@login_required
+
 def brand_filter(request, brand_id):
     products_data = {
             'occassion': Occassion.objects.all(),
@@ -451,8 +451,13 @@ def add_to_wishlist(request,prod):
     if not exist:
         obj=Wishlist(customer=request.user, product=product)
         obj.save()
+        messages.success(request, 'Item added to Wishlist..!!')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.error(request, 'Item Already added before')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
 
 
 
@@ -536,6 +541,11 @@ def place_order(request):
         selected_address = request.POST.get('delivery_address')
         
         
+        
+        if mode_of_payment != 'Razorpay':
+            if not phone or phone == '0':
+                messages.error(request,'Please add a contact number..!!')
+                return redirect('checkout') 
         if not mode_of_payment:
             messages.error(request,'Please select a payment method..!!')
             return redirect('checkout')            
@@ -573,8 +583,9 @@ def place_order(request):
                 object.save()
                 item.delete()
                 
-            if (mode_of_payment == "Razorpay"):
-                return JsonResponse({'status' : "Yout order has been placed successfully"})
+            if mode_of_payment == "Razorpay":
+                return JsonResponse({'status' : "Your order has been placed successfully"})
+            
             messages.info(request,'Order Placed')
             return render(request,'user/order_confirmed.html',{"order":order, "products": Ordered_Product.objects.filter(order_id=order.id)})
 
@@ -611,7 +622,7 @@ def apply_coupon(request):
             return JsonResponse({'status': 'Coupon Expired',})    
         
     else:    
-        return JsonResponse({'status': 'Not a Valid Coupon..!!',})
+        return JsonResponse({'status': 'Not a Valid Coupon..!!'})
 
 
 

@@ -13,6 +13,11 @@
 
   // Extract 'day' values for labels
   var sale_labels = sales_by_day.map(item => item.day);
+  console.log(sale_labels);
+
+  const sale_day = sale_labels.map(sale_label => sale_label.split(' ')[0]);
+  console.log(sale_day);
+
 //   var sale_labels = []
 //   var sale_labels = sales_by_day.map(function(dateTimeString) {
 //     var datePart = dateTimeString.split(' ')[0];
@@ -30,7 +35,7 @@
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: sale_labels,
+      labels: sale_day,
       datasets: [{
         data: sale_data,
         lineTension: 0,

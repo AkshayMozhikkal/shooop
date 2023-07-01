@@ -232,11 +232,11 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="btn btn-primary" href="#">Continue Shopping</a>
+                                    <a class="btn btn-primary" href="{% url 'shop' %}">Continue Shopping</a>
                                     {% if cart_obj %}
                                     <a class="primary-btn " href="{% url 'checkout' %}">Proceed to checkout</a>
                                     {% else %}
-                                    <a class="primary-btn " href="#" disabled >Proceed to checkout</a>
+                                    <a class="primary-btn" href="#" disabled >Proceed to checkout</a>
                                     {% endif %}
                                 </div>
                             </td>

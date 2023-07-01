@@ -18,11 +18,11 @@ from sqlalchemy.orm import sessionmaker
 from django.db.models import Sum
 from django.db.models.functions import TruncDay
 from openpyxl import Workbook
-from io import BytesIO
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
-from django.views import View
+from openpyxl.utils import get_column_letter
 import json
+import io
 
 
 
@@ -117,7 +117,8 @@ def add_product(request):
             new_product = Products.objects.get(prod_name=prod_name)
         except:
             new_product = Products(prod_name=prod_name, brand=prod_brand, color=color, size=size, occassion=occassion,ideal_for=ideal_for,descr=descr, image=image, offers=offer, stock=stock,price=price)
-            new_product.save()  
+            new_product.save()
+            messages.success(request, "Product Created Successfully..!!")  
   
         Variation.objects.create(product=new_product, size= size, price= price, stock = stock)
         return redirect('products')
@@ -186,12 +187,12 @@ def update_product(request, prod_id):
             variant.stock = stock
             variant.price = price
             variant.save()
-            messages.success(request, 'Updated successfully')
+            messages.success(request, 'Variant Updated successfully')
             return redirect('products')
             
         else:
             Variation.objects.create(product = product, size=size, price=price, stock = stock)
-            messages.success(request, 'New update added successfully')
+            messages.success(request, 'New Variant added successfully')
             return redirect('products')
             
                 
@@ -384,6 +385,8 @@ def report(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         
+       
+        
         if start_date == '' or end_date == '':
             messages.error(request, 'Give date first')
             return redirect('report')
@@ -402,44 +405,155 @@ def report(request):
         total_revenue = order_items.aggregate(total_revenue=Sum('total_amount'))['total_revenue']
         
         if order_items:
-            context.update(sales=order_items, s_date=start_date, e_date=end_date, total_revenue=total_revenue)
+            context.update(sales = order_items, s_date = start_date, e_date = end_date, total_revenue = total_revenue)
+            
         else:
             messages.error(request, 'No data found')
     return render(request, 'admins/sales_report.html',context)
 
 
-class SalesReportPDFView(View):
-    def get(self, request, *args, **kwargs):
-        # Generate the PDF content
-        buffer = BytesIO()
-        p = canvas.Canvas(buffer)
-        p.drawString(100, 100, "Sales Report")
-        # Add more content to the PDF as needed
 
-        # Finish the PDF
-        p.showPage()
-        p.save()
-
-        # Set the response headers for file download
-        buffer.seek(0)
-        response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
-        return response
+# EXCEL Sales Report
+def sales_report_excel(request):
+    
+    context = {}
+    if request.method == 'POST':
+        start_date = request.POST.get('Es_date')
+        end_date = request.POST.get('Ee_date')
         
-class SalesReportExcelView(View):
-    def get(self, request, *args, **kwargs):
-        # Generate the Excel content
-        wb = Workbook()
-        ws = wb.active
-        ws['A1'] = "Sales Report"
-        # Add more content to the Excel file as needed
+       
+        
+        if start_date == '' or end_date == '':
+            messages.error(request, 'Give date first')
+            return redirect('report')
+            
+        if start_date == end_date:
+            date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+            order_items = Order.objects.filter(total_amount__gt=0,time_of_order=date_obj.date())
+            if order_items:
+                context.update(sales=order_items, s_date=start_date, e_date=end_date)
+                return render(request, 'admins/sales_report.html', context)
+            else:
+                messages.error(request, 'No data found')
+            return redirect('report')
 
-        # Save the Excel file
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename="sales_report.xlsx"'
-        wb.save(response)
-        return response
+        order_items = Order.objects.filter(total_amount__gt=0,time_of_order__gte=start_date, time_of_order__lte=end_date)
+        total_revenue = order_items.aggregate(total_revenue=Sum('total_amount'))['total_revenue']
+        
+        if order_items:
+            context.update(sales = order_items, s_date = start_date, e_date = end_date, total_revenue = total_revenue)
+            
+            # EXCEL WORKS
+            sales_data = context
+
+            workbook = Workbook()
+            sheet = workbook.active
+            sheet.title = 'Sales Data'
+
+            sheet['A1'] = 'Order_Id'
+            sheet['B1'] = 'time_of_order'
+            sheet['C1'] = 'mode_of_payment'
+            sheet['D1'] = 'total_amount'
+            
+
+            row_num = 4
+            for order in sales_data['sales']:
+                sheet[f'A{row_num}'] = order.id
+                sheet[f'B{row_num}'] = order.time_of_order.replace(tzinfo=None).strftime('%Y-%m-%d %H:%M:%S')
+                sheet[f'C{row_num}'] = order.mode_of_payment
+                sheet[f'D{row_num}'] = order.total_amount
+                row_num += 1
+
+            excel_file = io.BytesIO()
+            workbook.save(excel_file)
+            excel_file.seek(0)
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="sales_data.xlsx"'
+            response['Content-Transfer-Encoding'] = 'binary'
+            response.write(excel_file.read())
+
+            return response
+        else:
+            messages.error(request, 'No data found')
+    return render(request, 'admins/sales_report.html',context)
+  
+  
+  
+  
+  
+# PDF Sales Report
+def sales_report_pdf(request):
+    
+    context = {}
+    if request.method == 'POST':
+        start_date = request.POST.get('s_date')
+        end_date = request.POST.get('e_date')
+        
+       
+        
+        if start_date == '' or end_date == '':
+            messages.error(request, 'Give date first')
+            return redirect('report')
+            
+        if start_date == end_date:
+            date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+            order_items = Order.objects.filter(total_amount__gt=0,time_of_order=date_obj.date())
+            if order_items:
+                context.update(sales=order_items, s_date=start_date, e_date=end_date)
+                return render(request, 'admins/sales_report.html', context)
+            else:
+                messages.error(request, 'No data found')
+            return redirect('report')
+
+        order_items = Order.objects.filter(total_amount__gt=0,time_of_order__gte=start_date, time_of_order__lte=end_date)
+        total_revenue = order_items.aggregate(total_revenue=Sum('total_amount'))['total_revenue']
+        
+        if order_items:
+            context.update(sales = order_items, s_date = start_date, e_date = end_date, total_revenue = total_revenue)
+            
+            # PDF Works
+            
+            sales_data = context
+
+            pdf_file = io.BytesIO()
+            pdf = canvas.Canvas(pdf_file)
+
+            pdf.setFont("Helvetica", 12)
+            pdf.drawString(100, 700, "Sales Data")
+
+            y = 650
+            x_id = 50
+            x_time = 200
+            x_mode = 400
+            x_amount = 550
+            
+            for order in sales_data['sales']:
+                pdf.drawString(x_id, y, f"ID: {order.id}")
+                pdf.drawString(x_time, y, f"Time Of Order: {order.time_of_order}")
+                pdf.drawString(x_mode, y, f"Mode of Payment: {order.mode_of_payment}")
+                pdf.drawString(x_amount, y, f"Total Amount: {order.total_amount}")
+                y -= 20
+
+            pdf.showPage()
+            pdf.save()
+
+            pdf_file.seek(0)  # Reset the stream position to the beginning
+
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="sales_data.pdf"'
+            response['Content-Transfer-Encoding'] = 'binary'
+            response.write(pdf_file.getvalue())  # Use getvalue() instead of read()
+
+            return response
          
+            
+        else:
+            messages.error(request, 'No data found')
+    return render(request, 'admins/sales_report.html',context)
+    
+    
+   
     
     
     

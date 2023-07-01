@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
+from django.http import HttpResponse, HttpRequest,HttpResponseRedirect
+from django.contrib import messages, auth
 
 class LogoutRedirectMiddleware:
     def __init__(self, get_response):
@@ -9,6 +11,9 @@ class LogoutRedirectMiddleware:
 
         # Check if the user is logged out and trying to access a protected page
         if not request.user.is_authenticated and response.status_code == 404:
+            messages.error(request, 'Please Login to access this feature..!')
             return redirect('login')  # Redirect to the login page or any other desired page
-
+        if request.user.is_authenticated and response.status_code == 404:
+            messages.error(request, 'We are working on the Requested Page')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return response

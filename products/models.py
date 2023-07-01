@@ -57,7 +57,6 @@ class Variation(models.Model):
             return self.discounted_price
     
     
-        
     
 class Offers(models.Model):
     name=models.CharField(max_length=50, null=True)

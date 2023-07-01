@@ -20,16 +20,27 @@
 	</section>
 	<!-- End Banner Area -->
     
-    <!-- Start Messages Area -->
-{% if messages %}
-{% for message in messages%}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
- <strong>{{message}}</strong>
-</div>
-{% endfor %}
-{% endif %}
-<!-- End  Messages Area -->
+  <!-- Start Messages Area -->
+  {% if messages %}
+  <div class="alert alert-danger alert-dismissible fade show h-auto" role="alert"
+	  style="position: relative;">
+	  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
+		  aria-label="Close"></button>
+	  {% for message in messages %}
+	  <strong>{{ message }}</strong><br>
+	  {% endfor %}
+  </div>
+  <script>
+	  let closeButton = document.querySelector('.alert button');
+	  closeButton.addEventListener('click', function () {
+		  let alertBox = this.parentElement;
+		  alertBox.style.display = 'none';
+	  });
+  </script>
+
+  {% endif %}
+
+  <!-- End  Messages Area -->
 
 	<!--================Login Box Area =================-->
 	<section class="login_box_area section_gap">

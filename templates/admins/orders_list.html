@@ -72,9 +72,10 @@
           </div>
           {% endfor %}
           {% endif %}
-
+          <div style="height: 50px;" class=" d-flex justify-content-center align-items-center mt-3 "><h2 style="color: gray; font-weight: bolder;" class="mt-5">ORDERS</h2></div>
+          <div class="m-5 border">
     <table class="table table-striped">
-        <thead>
+        <thead class="thead-dark">
           <tr>
             <th scope="col">Order Number</th>
             <th scope="col">Customer ID</th>
@@ -85,6 +86,8 @@
             <th scope="col">Payment Mode</th>
             <th scope="col">Time</th>
             <th scope="col">Status</th>
+            <th scope="col">Action</th>
+
           </tr>
         </thead>
         <tbody>
@@ -196,6 +199,7 @@
 
         </tbody>
       </table>
+    </div>
     </div>
     <div style="height: 500px;"></div>
 </body> 

@@ -30,7 +30,7 @@
        <tr>
         <th scope="row">{{item.order_id.id}}</th>
         <td>{{item.product.product.prod_name}}({{item.product.size}})</td>
-        <td {% if item.status == 'Cancelled' %}style="text-decoration: line-through;"{% endif %} >{{item.product.price}}</td>
+        <td {% if item.status == 'Cancelled' %}style="text-decoration: line-through;"{% endif %} >{% if item.product.product.offers %} {{item.product.discounted_price}} {% else %}{{item.product.price}}{% endif %}</td>
         <td>{{item.quantity}}</td>
         <td {% if item.status == 'Cancelled' %}style="text-decoration: line-through;"{% endif %}>{{item.amount}}</td>
         <td>{{item.order_id.time_of_order}}</td>
