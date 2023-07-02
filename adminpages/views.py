@@ -27,12 +27,13 @@ import io
 
 
 # Create your views here.
+
+@login_required
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='admin_login')
 def dashboard(request):
     if request.user.is_superuser:
         sales_by_day = Order.objects.annotate(day=TruncDay('time_of_order')).values('day').annotate(total_sales=Sum('total_amount')).order_by('day')
-        print(sales_by_day)
+        
         # Convert sales_by_day queryset to a list of dictionaries
         sales_data = list(sales_by_day.values('day', 'total_sales'))
 
@@ -206,8 +207,9 @@ def delete_product(request, prod_id):
     prod.delete()
     return redirect('products')
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def users_list(request):
     
     user = User.objects.all().order_by('id')
@@ -294,7 +296,8 @@ def coupons(request):
     return render (request, 'admins/coupons.html',{'coupons':coupons})
 
 
-
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True) 
 def offers_list(request):
     if request.method == 'POST':
         offr_id = request.POST.get('offer_id')
@@ -325,7 +328,8 @@ def offers_list(request):
         
     return render(request, 'admins/offers_list.html', {'offers': Offers.objects.all().order_by('id')})
     
-
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True) 
 def add_offer(request):
         offr_name=  request.POST.get('name')
         discount=  request.POST.get('discount')
@@ -359,7 +363,8 @@ def add_offer(request):
          
                 
             
-
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True) 
 def add_coupon(request):
     
         code = request.POST.get('code')
