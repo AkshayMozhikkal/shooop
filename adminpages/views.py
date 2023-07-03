@@ -114,6 +114,8 @@ def add_product(request):
         prod_brand = Brand.objects.get(id=brand)
         if offers:
             offer = Offers.objects.get(id=offers)
+        else: 
+            offer = None    
         try:
             new_product = Products.objects.get(prod_name=prod_name)
         except:
