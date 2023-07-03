@@ -20,5 +20,7 @@ urlpatterns = [
     path('report/',views.report, name='report'),
     path('sales_report_pdf/', views.sales_report_pdf, name='sales_report_pdf'),
     path('sales_report_excel/',  views.sales_report_excel, name='sales_report_excel'),
+    path('brands/',  views.brands, name='brands'),
+    path('add_brand/',  views.add_brand, name='add_brand')
     
 ]

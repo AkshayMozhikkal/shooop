@@ -81,6 +81,61 @@ def products(request):
     return render(request, 'admins/products.html',products_data)
 
 
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def brands(request):
+    if request.method =="POST":
+        brand_id = request.POST.get('brand_id')
+        brand_name = request.POST.get('name')
+        brand_descr = request.POST.get('description')
+        brand_image = request.FILES.get('image')
+        
+        brand = Brand.objects.get(id=brand_id)
+        if brand_name:
+            brand.name=brand_name
+        if brand_descr:
+            brand.description=brand_descr
+        if brand_image:
+            brand.image=brand_image  
+            
+        brand.save()          
+        return render(request, "admins/brands.html", {'brands': Brand.objects.all()})
+        
+    
+    return render(request, "admins/brands.html", {'brands': Brand.objects.all()})
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def add_brand(request):
+    brand_name = request.POST.get('name')
+    brand_descr = request.POST.get('description')
+    brand_image = request.FILES.get('image')
+    
+    brand = Brand.objects.filter(name = brand_name)
+    
+    if brand:
+        messages.error(request, "Brand already added before, try to edit")
+        return  redirect('brands')
+         
+    if not brand_name:
+        messages.error(request, "Brand Name Required")
+        return  redirect('brands')
+        
+    if not brand_descr:
+        messages.error(request, "Please add Brand description")
+        return  redirect('brands')    
+        
+    if not brand_image:
+        messages.error(request, "Please add an image")
+        return  redirect('brands')    
+    
+    Brand.objects.create(name=brand_name, description=brand_descr, image=brand_image) 
+    messages.success(request, "Brand Created Successfully")
+    return  redirect('brands')           
+    
+
 @login_required
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_product(request):
