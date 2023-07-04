@@ -33,20 +33,13 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
+          <li><a class="nav-link active" href="{% url 'brands' %}">Brands</a></li>
+          <li><a class="nav-link active" href="{% url 'products' %}">Products</a></li>
+          <li><a class="nav-link active" href="{% url 'coupons' %}">Coupons</a></li>
+          <li><a class="nav-link active" href="{% url 'offers_list' %}">Offers</a></li>
+          <li><a class="nav-link active" href="{% url 'orders_list' %}">Orders</a></li>
+          <li><a class="nav-link active" href="{% url 'report' %}">Sales Report</a></li>
+          <li><a class="nav-link active" href="{% url 'users_list' %}">Customers</a></li>
         </ul>
         <div class="d-lg-flex col-lg-3 justify-content-lg-end">
           {% if user.is_authenticated %}
