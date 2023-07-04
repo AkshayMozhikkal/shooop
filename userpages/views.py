@@ -662,9 +662,8 @@ def return_item(request):
         Returned.objects.create(returned_product = return_product, reason = reason, comments = note)
         
         return_product.status = 'Returned'
-        
-        if return_product.order_id.mode_of_payment != "COD":
-            request.user.wallet += return_product.amount
+    
+        request.user.wallet += return_product.amount
         
         return_product.save()
         request.user.save()
