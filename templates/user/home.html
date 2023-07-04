@@ -18,21 +18,21 @@
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title>Shooop</title>
-	<link rel="icon" type="image/png" href="{% static 'user/img/Logoos/shoe3.png' %}" />
+	<link rel="icon" type="image/png" href="{% static 'user/img/Logoos/shoe3.png'%}">
 	<!--
 		CSS
 		============================================= -->
 	<link rel="stylesheet" href="{%static 'user/css/linearicons.css'%}">
-		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/nice-select.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css ' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css ' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/main.css ' %}">
+		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nice-select.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/main.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<style>
 			.carousel {
@@ -301,9 +301,7 @@
 					<div class="col-lg-6 text-center">
 						<div class="section-title">
 							<h1>Latest Products</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-								dolore
-								magna aliqua.</p>
+							<p>Explore the shop to see the recently released products, get some exclusive deals and make your orders.</p>
 						</div>
 					</div>
 				</div>
@@ -519,114 +517,21 @@
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row">
+						{% for product in products %}
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r1.jpg' %}" alt=""></a>
+								<a href="#"><img src="{{product.image.url}}" alt="" style="height:50px; width:50px;"></a>
 								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
+									<a href="#" class="title">{{product.prod_name}}</a>
 									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
+										<h6>₹{{product.price}}</h6>
+										<h6 class="l-through">₹{{ product.price| mul:1.20}}</h6>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r2.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r3.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r5.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r6.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r7.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r9.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r10.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="{% static 'user/img/r11.jpg' %}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>₹189.00</h6>
-										<h6 class="l-through">₹210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
+						{% endfor %}
+						
 					</div>
 				</div>
 				<div class="col-lg-3">

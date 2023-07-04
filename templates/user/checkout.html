@@ -94,7 +94,7 @@
                                     {% if addr.is_active %}
                                     <!-- Address Card Start -->
 
-                                    <div class="card col d-flex d-flex justify-content-between" style="width: 18rem;">
+                                    <div class="card col d-flex d-flex justify-content-between m-2" style="width: 18rem;">
                                         <div class="card-body">
                                             <h5 class="card-title">Address Field</h5>
 
@@ -214,20 +214,17 @@
                                     <label for="f-option5">Cash On Delivery</label>
                                     <div class="check"></div>
                                 </div>
-                                {% comment %} <p>Please send a check to Store Name, Store Street, Store Town, Store
-                                    State /
-                                    County,
-                                    Store Postcode.</p> {% endcomment %}
+                               
                             </div>
                             <div class="payment_item active">
                                 <div class="radion_btn">
-                                    <input type="radio" id="f-option6" name="selector" value="Paypal">
+                                    <input type="radio" id="f-option6" name="selector" value="Paypal" disabled>
                                     <label for="f-option6">Paypal </label>
                                     <img src="img/product/card.jpg" alt="">
                                     <div class="check"></div>
                                 </div>
-                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
-                                    account.</p>
+                                <p>Pay via Razorpay; you can pay with your credit card if you don’t have a UPI
+                                    ID.</p>
                             </div>
                             <div class="creat_account">
                                 <input type="checkbox" id="f-option4" name="terms" required>
