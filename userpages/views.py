@@ -26,7 +26,8 @@ from django.db.models import Q
 
 def home(request):
     context ={
-        'products': Products.objects.all()
+        'products': Products.objects.all().order_by('id'),
+        'brands' : Brand.objects.all()
     }
     return render(request,"user/home.html", context)
 

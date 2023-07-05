@@ -29,11 +29,11 @@
 		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/nice-select.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css' %}">
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/main.css' %}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer">
 		<style>
 			.carousel {
 				width: 100%;
@@ -444,7 +444,7 @@
 							<div class="product-details">
 								<div class="price">
 									<h6>₹{{product.price}}</h6>
-									<h6 class="l-through">₹₹{{ product.price| mul:1.20}}</h6>
+									<h6 class="l-through">₹{{ product.price| mul:1.20}}</h6>
 								</div>
 								<h4>{{product.descr}}</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
@@ -482,9 +482,13 @@
 	<section class="brand-area section_gap">
 		<div class="container">
 			<div class="row">
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/1.png' %}" alt="">
+				{% for brand in brands %}
+				{% if brand.image %}
+				<a class="col single-img" href="{% url 'brand_filter' brand.id %}">
+					<img class="img-fluid d-block mx-auto" src="{{brand.image.url}}" alt="">
 				</a>
+				{% endif %}
+				{% endfor %}
 				<a class="col single-img" href="#">
 					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/2.png' %}" alt="">
 				</a>
@@ -509,8 +513,7 @@
 				<div class="col-lg-6 text-center">
 					<div class="section-title">
 						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
+						<p>Grab the deals of the week without wasting time, add to bag and place your order now..!!.</p>
 					</div>
 				</div>
 			</div>

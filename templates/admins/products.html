@@ -12,22 +12,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 	<!-- CSS ============================================= -->
 	<link rel="stylesheet" href="{%static 'user/css/linearicons.css'%}">
-		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/nice-select.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css ' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css ' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css ' %}">
-		<link rel="stylesheet" href="{% static 'user/css/main.css ' %}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/owl.carousel.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nice-select.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/nouislider.min.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.css' %}" >
+		<link rel="stylesheet" href="{% static 'user/css/ion.rangeSlider.skinFlat.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/magnific-popup.css' %}">
+		<link rel="stylesheet" href="{% static 'user/css/main.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.3.0/remixicon.css" integrity="sha512-0JEaZ1BDR+FsrPtq5Ap9o05MUwn8lKs2GiCcRVdOH0qDcUcCoMKi8fDVJ9gnG8VN1Mp/vuWw2sMO0SQom5th4g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css">
         <!-- Default theme -->
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/themes/default.min.css"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/themes/default.min.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -97,7 +97,6 @@
             <th scope="col" style="text-align: center;">Image</th>
             <th scope="col" style="text-align: center;">Description</th>
             <th scope="col" style="text-align: center;">Offers</th>
-            <th scope="col" style="text-align: center;">Coupon</th>
             <th scope="col" style="text-align: center;">Stock</th>
             <th scope="col" style="text-align: center;">Price</th>
             <th scope="col" style="text-align: center;">Action</th>
@@ -121,7 +120,6 @@
             {% endif %}
             <td style="text-align: center;"> {{ item.descr }}</td>
             <td style="text-align: center;"> {{ item.offers }}</td>
-            <td style="text-align: center;"> {{ item.coupon }}</td>
             <td style="text-align: center;"> {{ item.stock }}</td>
             <td style="text-align: center;"> {{ item.price }}</td>
             <td style="text-align: center;"><a class="btn btn-outline-secondary p-1" href="{% url 'update_product' item.id %}">Edit</a>
