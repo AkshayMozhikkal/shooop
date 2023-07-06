@@ -39,12 +39,22 @@ def login(request):
         new_username = request.POST.get('username')
         new_password = request.POST.get('password')
         
-        user = auth.authenticate(username =new_username, password=new_password)
+        try:
+            user = User.objects.get(username=new_username)
+            if not user.is_active:
+                 messages.error(request, 'Account is blocked, please enquire for more details..!!')
+                 return redirect('login') 
+                
+        except:
+            user = None
+        
+        user = auth.authenticate(username =new_username.strip(), password=new_password)
+           
         if user is not None:
             auth.login(request, user)
             return redirect('profile') 
         else:
-            messages.error(request, 'You dont have an account, Please sign up to get an account..!!')
+            messages.error(request, 'Please check the Username and Password you entered..!!')
             return redirect('login') 
     return  render(request, 'user/login.html') 
 
@@ -264,7 +274,17 @@ def shop(request):
             'product':Products.objects.all().order_by('id'),
             'brands' : Brand.objects.all()
         }
-    
+                    
+    return render(request,"user/shop.html",products_data)
+
+# Occassion Filter
+def occassion_filter(request,occ,sex):
+    products_data = {
+            'occassion': Occassion.objects.all(),
+            'product':Products.objects.filter(occassion=occ, ideal_for=sex).order_by('id'),
+            'brands' : Brand.objects.all()
+        }
+    messages.error(request, occ+' for '+sex)
     return render(request,"user/shop.html",products_data)
 
 # Product Search
@@ -277,17 +297,20 @@ def product_search(request):
             'brands' : Brand.objects.all()
         }
     
+    messages.error(request,"Products matching : "+key)
     return render(request,"user/shop.html",products_data)
 
 
 
 
 def brand_filter(request, brand_id):
+    brnd_name = Brand.objects.get(id=brand_id).name
     products_data = {
             'occassion': Occassion.objects.all(),
             'product':Products.objects.filter(brand__id=brand_id),
             'brands' : Brand.objects.all()
         }
+    messages.error(request, brnd_name+" shoes in shop")
     return render(request,"user/shop.html",products_data)
 
 

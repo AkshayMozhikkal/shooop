@@ -18,9 +18,9 @@
                              class="lnr lnr-arrow-right"></span>Shoes for Men<span class="number">(53)</span></a>
                         <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
                             {% for i in occassion %}
-                            <li class="main-nav-list child"><a href="#">{{i.Sports}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.casual}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.Formal}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Sports 'Men' %}">{{i.Sports}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.casual 'Men' %}">{{i.casual}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Men' %}">{{i.Formal}}<span class="number">(13)</span></a></li>
                             {% endfor %}
                            
                         </ul>
@@ -30,9 +30,9 @@
                              class="lnr lnr-arrow-right"></span>Shoes for Women<span class="number">(53)</span></a>
                         <ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
                             {% for i in occassion %}
-                            <li class="main-nav-list child"><a href="#">{{i.Sports}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.casual}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.Formal}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Sports 'Women' %}">{{i.Sports}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.casual 'Women' %}">{{i.casual}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Women' %}">{{i.Formal}}<span class="number">(13)</span></a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -40,9 +40,9 @@
                              class="lnr lnr-arrow-right"></span>Shoes for Boys<span class="number">(53)</span></a>
                         <ul class="collapse" id="cooking" data-toggle="collapse" aria-expanded="false" aria-controls="cooking">
                             {% for i in occassion %}
-                            <li class="main-nav-list child"><a href="#">{{i.Sports}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.casual}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.Formal}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Sports 'Men' %}">{{i.Sports}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.casual 'Men' %}">{{i.casual}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Men' %}">{{i.Formal}}<span class="number">(13)</span></a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -50,9 +50,9 @@
                              class="lnr lnr-arrow-right"></span>Shoes for Girls<span class="number">(24)</span></a>
                         <ul class="collapse" id="beverages" data-toggle="collapse" aria-expanded="false" aria-controls="beverages">
                             {% for i in occassion %}
-                            <li class="main-nav-list child"><a href="#">{{i.Sports}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.casual}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="#">{{i.Formal}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Sports 'Women' %}">{{i.Sports}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.casual 'Women' %}">{{i.casual}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Women'%}">{{i.Formal}}<span class="number">(13)</span></a></li>
                             {% endfor %}
                         </ul>
                     </li>

@@ -482,6 +482,12 @@
 	<section class="brand-area section_gap">
 		<div class="container">
 			<div class="row">
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/2.png' %}" alt="">
+				</a>
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/3.png' %}" alt="">
+				</a>
 				{% for brand in brands %}
 				{% if brand.image %}
 				<a class="col single-img" href="{% url 'brand_filter' brand.id %}">
@@ -489,12 +495,7 @@
 				</a>
 				{% endif %}
 				{% endfor %}
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/2.png' %}" alt="">
-				</a>
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/3.png' %}" alt="">
-				</a>
+				
 				<a class="col single-img" href="#">
 					<img class="img-fluid d-block mx-auto" src="{% static 'user/img/brand/4.png' %}" alt="">
 				</a>

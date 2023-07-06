@@ -26,7 +26,7 @@ urlpatterns = [
     path('apply_coupon/', views.apply_coupon, name='apply_coupon'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('reset_password/', views.reset_password, name='reset_password'),
-   
+    path('occassion_filter/<str:occ>/<str:sex>', views.occassion_filter, name='occassion_filter'),
     
     
 ]
