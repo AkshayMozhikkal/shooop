@@ -118,9 +118,11 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							{% if user.is_authenticated %}
-							<li class="nav-item"><a href="{% url 'profile' %}" class="cart"><span ><i class="ri-user-line"></i></span></a></li>
+							<li class="nav-item"><a href="{% url 'profile' %}" class="cart"><span ><i style="color: rgb(112, 112, 237);" class="ri-user-line"></i></span></a></li>
+							<li class="nav-item"><a href="{% url 'cart' %}" class="cart"><span ><i style="color: rgb(120, 120, 234);" class="ri-shopping-cart-fill"></i></span></a></li>
 							{% else %}
 							<li class="nav-item"><a href="{% url 'login' %}" class="cart"><span ><i class="ri-user-line"></i></span></a></li>
+							<li class="nav-item"><a href="{% url 'login' %}" class="cart"><span ><i class="ri-shopping-cart-fill"></i></span></a></li>
 							{% endif %}
 							<li class="nav-item">
 								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
