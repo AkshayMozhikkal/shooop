@@ -18,11 +18,11 @@
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title>Shooop</title>
-	<link rel="icon" type="image/png" href="{% static 'user/img/Logoos/shoe3.png'%}">
+	<link rel="icon" type="image/png" href="{% static 'user/img/Logoos/shoe3.png' %}">
 	<!--
 		CSS
 		============================================= -->
-	<link rel="stylesheet" href="{%static 'user/css/linearicons.css'%}">
+	<link rel="stylesheet" href="{% static 'user/css/linearicons.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/themify-icons.css' %}">
 		<link rel="stylesheet" href="{% static 'user/css/bootstrap.css' %}">
@@ -75,13 +75,13 @@
 								 aria-expanded="false">Shop</a>
 								<ul class="dropdown-menu">
 									{% if user.is_authenticated %}
-									<li class="nav-item"><a class="nav-link" href="{% url 'shop'%}">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop Category</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'wishlist' %}">Wishlist</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Shopping Cart</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'checkout' %}">Product Checkout</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'my_orders' %}">Orders</a></li>
 									{% else %}
-									<li class="nav-item"><a class="nav-link" href="{% url 'shop'%}">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop Category</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Wishlist</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Shopping Cart</a></li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Product Checkout</a></li>
@@ -152,7 +152,7 @@
 					<div class="active-banner-slider owl-carousel">
 						<!-- single-slide -->
 						{% for product in products %}
-						{% if product.image %}
+						{% if product.image and product.is_active %}
 						<div class="row single-slide align-items-center d-flex mt-5 carousel-item">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
@@ -310,6 +310,7 @@
 				<div class="row">
 					<!-- single product -->
 					{% for product in products %}
+					{% if product.is_active %}
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
 							{% if product.offers %}<span style="color: cyan; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">{{product.offers.name}} Offers Available..!!</span>{% endif %}
@@ -343,6 +344,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 					{% endfor %}
 					
 					
@@ -440,7 +442,7 @@
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
 						{% for product in products  %}
-						{% if product.image %}
+						{% if product.image and product.is_active %}
 						<div class="single-exclusive-slider">
 							<img class="img-fluid" src="{{product.image.url}}" alt="">
 							<div class="product-details">

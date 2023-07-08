@@ -166,7 +166,11 @@ def add_product(request):
             messages.success(request, "Please add stock quantity")
             return render(request,'admins/add_product.html', context)
         
-        prod_brand = Brand.objects.get(id=brand)
+        try:
+            prod_brand = Brand.objects.get(id=brand)
+        except:
+            prod_brand = None  
+              
         if offers:
             offer = Offers.objects.get(id=offers)
         else: 
@@ -261,7 +265,11 @@ def update_product(request, prod_id):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def delete_product(request, prod_id):
     prod = Products.objects.get(id = prod_id)
-    prod.delete()
+    if prod.is_active:
+        prod.is_active=False
+    else:
+        prod.is_active = True    
+    prod.save()
     return redirect('products')
 
 

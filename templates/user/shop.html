@@ -51,7 +51,7 @@
                             {% for i in occassion %}
                             <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Sports 'Women' %}">{{i.Sports}}<span class="number">(13)</span></a></li>
                             <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.casual 'Women' %}">{{i.casual}}<span class="number">(13)</span></a></li>
-                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Women'%}">{{i.Formal}}<span class="number">(13)</span></a></li>
+                            <li class="main-nav-list child"><a href="{% url 'occassion_filter' i.Formal 'Women' %}">{{i.Formal}}<span class="number">(13)</span></a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -138,7 +138,9 @@
                     
                     <!-- single product -->
                     {% for item in product %}
+                    {% if item.is_active %}
                     <div class="col-lg-4 col-md-6">
+                        
 
                         <div class="single-product">
                             {% if item.offers %}<span style="color: cyan; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">{{item.offers.name}} Offers Available..!!</span>{% endif %}
@@ -175,7 +177,9 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
+                    {% endif %} 
                     {% endfor %}
                     
             <!-- End Single Product -->

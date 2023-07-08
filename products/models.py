@@ -32,6 +32,7 @@ class Products(models.Model):
     coupon = models.ForeignKey("products.Coupons", on_delete=models.CASCADE, blank=True, null=True)
     stock = models.IntegerField(blank=True)
     price = models.IntegerField(blank=False)
+    is_active = models.BooleanField(default=True)
     
     def __str__(self):
         return self.prod_name
