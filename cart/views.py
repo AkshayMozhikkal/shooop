@@ -19,7 +19,7 @@ def add_to_cart(request,prod_id):
     variant = Variation.objects.get(id=prod_id)
     
     if Cart.objects.filter(product_id=variant, customer_id=request.user).exists():
-        messages.error(request, 'Item Already added before')
+        messages.error(request, 'Item already added before')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
      
     users_cart = Cart(customer_id = request.user, product_id = variant, total_price = variant.price)
@@ -27,6 +27,7 @@ def add_to_cart(request,prod_id):
         users_cart.total_price = users_cart.product_id.offer_price()
     users_cart.save()
     
+    messages.error(request, 'Item added to cart..!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     
 
