@@ -19,6 +19,9 @@ from django.db.models import Sum
 from django.db.models.functions import TruncDay
 from openpyxl import Workbook
 from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
 from openpyxl.utils import get_column_letter
 import json
@@ -584,39 +587,54 @@ def sales_report_pdf(request):
             
             # PDF Works
             
-            sales_data = context
+            sales_data = context['sales']
+            total_revenue = context['total_revenue']
 
             pdf_file = io.BytesIO()
-            pdf = canvas.Canvas(pdf_file)
+            pdf = SimpleDocTemplate(pdf_file, pagesize=letter)
 
-            pdf.setFont("Helvetica", 12)
-            pdf.drawString(100, 700, "Sales Data")
+            elements = []
 
-            y = 650
-            x_id = 50
-            x_time = 200
-            x_mode = 400
-            x_amount = 550
-            
-            for order in sales_data['sales']:
-                pdf.drawString(x_id, y, f"ID: {order.id}")
-                pdf.drawString(x_time, y, f"Time Of Order: {order.time_of_order}")
-                pdf.drawString(x_mode, y, f"Mode of Payment: {order.mode_of_payment}")
-                pdf.drawString(x_amount, y, f"Total Amount: {order.total_amount}")
-                y -= 20
+            # Header row
+            table_data = [['ID', 'Time of Order', 'Mode of Payment', 'Total Amount']]
 
-            pdf.showPage()
-            pdf.save()
+            # Add data rows
+            for order in sales_data:
+                table_data.append([str(order.id), str(order.time_of_order), order.mode_of_payment, str(order.total_amount)])
+
+            # Add total revenue row
+            table_data.append(['', '', 'Total Revenue', str(total_revenue)])
+                
+            # Create the table and set style
+            table = Table(table_data)
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTSIZE', (0, 0), (-1, 0), 12),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -2), colors.beige),
+                ('GRID', (0, 0), (-1, -2), 1, colors.black),
+                ('BACKGROUND', (-1, -1), (-1, -1), colors.lightblue),  # Background color for last row
+                ('TEXTCOLOR', (-1, -1), (-1, -1), colors.black),  # Text color for last row
+                ('FONTNAME', (-1, -1), (-1, -1), 'Helvetica-Bold'),  # Font style for last row
+                ('ALIGN', (-1, -1), (-1, -1), 'RIGHT'),  # Alignment for last row
+            ]))
+
+            elements.append(table)
+
+            pdf.build(elements)
 
             pdf_file.seek(0)  # Reset the stream position to the beginning
 
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="sales_data.pdf"'
+            response['Content-Disposition'] = 'attachment; filename="Shooop.sales_data.pdf"'
             response['Content-Transfer-Encoding'] = 'binary'
-            response.write(pdf_file.getvalue())  # Use getvalue() instead of read()
+            response.write(pdf_file.getvalue())
 
             return response
-         
+                    
             
         else:
             messages.error(request, 'No data found')

@@ -62,7 +62,6 @@ def login(request):
 
 # Forgot Password
 def forgot_password(request):
-
     if request.method=='POST':
         new_password = request.POST.get('new_pass1')
         n_password = request.POST.get('new_pass2')
@@ -221,14 +220,6 @@ def signup(request):
                 messages.info(request,'Please enter a valid Email ID')
                 return redirect('signup') 
             
-            try :
-               uuser =User.objects.get(username=username)
-               if uuser:
-                    messages.info(request,'Username already taken, please try another')
-                    return redirect('signup')
-            except:
-                uuser =None
-                 
 
             if password1 == password2:
                 try:
