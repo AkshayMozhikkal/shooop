@@ -31,7 +31,7 @@ class Ordered_Product(models.Model):
         ('Cancelled','Cancelled'),
         ('Returned','Returned'),
     )
-    status = models.CharField(choices=STATUS,default='Order Confirmed')
+    status = models.CharField(choices=STATUS,default='Order Confirmed', max_length=100)
  
  
  
