@@ -1,9 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,User
+from django.contrib.auth.models import  User
 
 
 # Create your models here.
 
+    
 class Address(models.Model):
     house = models.CharField(blank=True,null=True, max_length=50)
     city = models.CharField(blank=True,null=True, max_length=50)
