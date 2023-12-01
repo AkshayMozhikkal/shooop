@@ -24,11 +24,11 @@
 *.so
 
 # Distribution / packaging
-.Python
-build/
+# .Python
+# build/
 develop-eggs/
-dist/
-downloads/
+# dist/
+# downloads/
 eggs/
 .eggs/
 # lib/
@@ -132,13 +132,13 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# .env
+# .venv
+# env/
+# venv/
+# ENV/
+# env.bak/
+# venv.bak/
 
 # Spyder project settings
 .spyderproject
@@ -148,21 +148,21 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+# /site
 
 # mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# .mypy_cache/
+# .dmypy.json
+# dmypy.json
 
 # Pyre type checker
-.pyre/
+# .pyre/
 
 # pytype static type analyzer
-.pytype/
+# .pytype/
 
 # Cython debug symbols
-cython_debug/
+# cython_debug/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
