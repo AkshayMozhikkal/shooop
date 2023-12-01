@@ -234,8 +234,8 @@ def signup(request):
                     messages.info(request,'You already registered before, please login with your password..!')
                     return redirect('signup')  
                 else:
-                    user = User.objects.create_user(first_name = fname, last_name = lname, username = username, email = email, password = password1)
-                    user.is_active = False 
+                    user = User(first_name = fname, last_name = lname, username = username, email = email, password = password1, is_active = False )
+                
                     user.save()
                     
                     user_otp=random.randint(100000,999999)
