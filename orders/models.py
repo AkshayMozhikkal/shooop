@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,User
 from products.models import Products, Variation, Brand, Coupons, Offers
 from cart.models import Cart
-from userpages.models import Address
+from userpages.models import Address , User
 
 
 # Create your models here.

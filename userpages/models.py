@@ -1,9 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import  User
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
 
+class User(AbstractUser):
+    wallet = models.BigIntegerField(blank=True, default=0, null=True)   
+    phone = models.BigIntegerField(blank=True, default=0, null=True)   
     
 class Address(models.Model):
     house = models.CharField(blank=True,null=True, max_length=50)

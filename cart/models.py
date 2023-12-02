@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 from products.models import Products, Variation, Offers, Coupons
+from userpages.models import User
 
 # Create your models here.
 
